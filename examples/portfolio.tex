@@ -46,15 +46,23 @@
 %   \projsummary{한 줄 요약}  — 노션의 인용구(한 줄 소개)
 %   \projfig{파일}            — 가운데 정렬 스크린샷 (폭 맞춤, 최대 높이 제한)
 %-------------------------------------------------------------------------------
+% 한 줄 소개 — CV 소자 크기에 맞춰 9.5pt, 강조색 세로 바
 \newcommand{\projsummary}[1]{%
-  \par\vspace{0.2mm}%
-  \noindent{\color{awesome}\rule[-0.2mm]{2.2pt}{3.4mm}}\enskip{\normalsize\color{darktext}#1}\par
-  \vspace{1.2mm}%
+  \par\vspace{0.3mm}%
+  \noindent{\color{awesome}\rule[-0.3mm]{2pt}{3.1mm}}\enskip
+  {\fontsize{9.5pt}{1.25em}\bodyfontlight\upshape\color{darktext}#1}\par
+  \vspace{0.4mm}%
 }
+% 소제목(배경·데이터·설계 등) — 12pt \cvsubsection 대신 CV entry-title 크기(10pt) 굵은 라벨
+\newcommand{\projpart}[1]{%
+  \vspace{\acvSectionContentTopSkip}\vspace{-3mm}%
+  {\fontsize{10pt}{1em}\bodyfont\bfseries\color{awesome}#1}%
+  \phantomsection
+}
+% 스크린샷 — 폭 0.84, 높이 상한으로 과하지 않게
 \newcommand{\projfig}[1]{%
-  \par\vspace{1.4mm}%
-  \begin{center}\includegraphics[width=0.9\linewidth, height=8.4cm, keepaspectratio]{#1}\end{center}%
-  \vspace{0.2mm}%
+  \par\vspace{1.1mm}%
+  \begin{center}\includegraphics[width=0.84\linewidth, height=7.4cm, keepaspectratio]{#1}\end{center}%
 }
 
 %-------------------------------------------------------------------------------

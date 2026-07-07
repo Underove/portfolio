@@ -6,7 +6,7 @@
 \projsummary{CLIP 기반 이미지 의미 분석으로 입력을 5단계 자동 심사하고, 단일 이미지에서 3D를 복원하는 비전--언어 파이프라인}
 \projfig{p4.png}
 
-\cvsubsection{배경 및 목표}
+\projpart{배경 및 목표}
 \begin{cvitems}
   \item {\textbf{배경}\enskip 최근 '개인 아카이빙 문화'가 확산되고 있으나, 기존 2D 중심 기록 방식으로는 물체의 입체적인 요소를 온전히 보존하기 어렵다는 한계가 존재.}
   \item {\textbf{목표}\enskip 단일 2D 이미지 기반 3D 재구성 모델을 활용해 물체의 입체적 특성을 보존·공유하는, 웹 기반 디지털 아카이빙 플랫폼을 개발.}
@@ -15,10 +15,10 @@
   \item {\textbf{사용 GPU}\enskip NVIDIA RTX 5090 (Vast.ai 대여)}
 \end{cvitems}
 
-\cvsubsection{파이프라인}
+\projpart{파이프라인}
 \projfig{p4pipe.png}
 
-\cvsubsection{설계 과정 및 수행 내용}
+\projpart{설계 과정 및 수행 내용}
 \begin{cvitems}
   \item {\textbf{\cn{1} CLIP 기반 Semantic 전처리 시스템 설계}\enskip 3D 재구성 모델은 객체의 재질(투명·반사)이나 구도(잘림)에 따라 생성 품질 격차가 크고 부적절한 입력은 서버 리소스를 낭비. CLIP(ViT-B/32) Zero-shot 필터링으로 입력의 의미론적 특징을 분석해 3D 복원 적합성을 5단계로 분류('논문 피어 리뷰' 프로세스를 참고: Early Reject / Reject / Major·Minor Revision Needed / Accept). AI의 오판 가능성을 고려해 사용자가 최종 생성 여부를 결정하는 'Human Override' 인터페이스로 데이터 무결성을 확보.}
   \item {\textbf{\cn{2} Dual-Track 추론 파이프라인 (사용자 요구 맞춤형 설계)}\enskip 실시간 서비스에 필요한 '생성 속도'와 결과물 '정밀도' 사이의 Trade-off를 해결. \textbf{Fast Track(SPAR3D)}는 약 0.7초의 초고속 추론으로 즉각적인 3D 결과 확인이 필요한 체험형 사용자에 대응하고, \textbf{Quality Track(TRELLIS.2)}는 정밀 복원이 필요한 아카이빙 목적의 고해상도 생성 파이프라인을 연동.}

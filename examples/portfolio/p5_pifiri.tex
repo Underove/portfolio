@@ -6,7 +6,7 @@
 \projsummary{라즈베리파이 로봇과 LLM Agent를 결합한 실시간 자율 순찰 및 화재 대응 시스템}
 \projfig{p5.png}
 
-\cvsubsection{배경 및 목표}
+\projpart{배경 및 목표}
 \begin{cvitems}
   \item {\textbf{배경}\enskip 지하주차장·물류창고 등 사각지대가 많은 실내 공간은 기존 고정형 센서만으로 신속한 대응이 어렵고, 화재 위치나 규모를 사람이 직접 판단해야 하는 위험이 존재.}
   \item {\textbf{목표}\enskip 상용 로봇 키트에 정밀 제어 및 환경 센서를 통합하고, LLM Agent로 화재 상황을 실시간 탐지·분석·보고하는 '지능형 화재 감지 시스템'을 개발.}
@@ -14,10 +14,10 @@
   \item {\textbf{기술 스택}\enskip Python · TensorFlow · Raspberry Pi · EfficientDet-Lite1 · Flask · LangChain · Solar Pro2 · OpenCV · PID Control · Streamlit}
 \end{cvitems}
 
-\cvsubsection{파이프라인}
+\projpart{파이프라인}
 \projfig{p5pipe.png}
 
-\cvsubsection{시스템 및 하드웨어 구성}
+\projpart{시스템 및 하드웨어 구성}
 \begin{cvitems}
   \item {\textbf{EfficientDet-Lite1}\enskip 엣지 환경 구동을 위해 TFLite 모델 중 추론 속도(49ms)와 정확도(mAP 30.55\%)의 최적 균형점인 'Lite1'을 선정하고, Roboflow Universe의 Fire\&Smoke Dataset을 수집·증강해 파인튜닝.}
   \item {\textbf{연속 감지 필터링}\enskip 단일 프레임 노이즈로 인한 오탐지를 막기 위해, 0.5 임계값 이상 탐지가 1.2초 연속 유지될 때만 화재로 확정.}
@@ -27,7 +27,7 @@
   \item {\textbf{ArUco Marker (OpenCV)}\enskip 로봇의 현재 위치와 화재 발생 지점을 파악하기 위해 경로 구간별로 도입.}
 \end{cvitems}
 
-\cvsubsection{설계 과정 및 수행 내용}
+\projpart{설계 과정 및 수행 내용}
 \begin{cvitems}
   \item {\textbf{\cn{1} PID 제어 로직을 통한 주행 안정화 (하드웨어 한계 보완)}\enskip PiCar-4WD 키트를 단순 if-else 조건문으로 제어하면 모터 출력 불균형으로 좌·우로 흔들리는 헌팅(Hunting)과 경로 이탈이 발생. GrayScale 센서의 라인 오차(e)를 수치화하고 PID 제어로 모터 출력을 실시간 미세 조정 — I(적분) 제어로 출력 저하에 따른 주행 편향을 보정하고, D(미분) 제어로 조향 시 떨림을 억제해 이탈 없는 부드러운 라인 트레이싱을 구현.}
   \item {\textbf{\cn{2} 분산 컴퓨팅 아키텍처 설계}\enskip 엣지에서 주행 제어와 고부하 AI 추론을 동시 수행하면 연산 지연(1 FPS)으로 실시간 구동이 불가. 라즈베리파이와 로컬 PC를 같은 모바일 핫스팟(WLAN)에 연결해 하나의 서브넷을 구축하고, Pi의 Flask API가 영상·센서 데이터를 전송하면 로컬 PC가 추론을 처리하는 구조로 약 10 FPS의 안정적 실시간성을 확보.}
