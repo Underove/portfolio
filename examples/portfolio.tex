@@ -17,19 +17,20 @@
 %-------------------------------------------------------------------------------
 % 한글 폰트 (레포에 동봉한 나눔고딕을 Path 로 직접 지정 → CI 이미지 폰트에 의존하지 않음)
 %-------------------------------------------------------------------------------
+% Scale 로 한글 글자 크기를 라틴(Source Sans)에 시각적으로 맞춤 — 안 맞추면 한글이 더 커 보여 크기가 뒤죽박죽.
 \usepackage{kotex}
 \setmainhangulfont{NanumGothic}[
-  Path=fonts/, Extension=.ttf,
+  Path=fonts/, Extension=.ttf, Scale=0.92,
   UprightFont=*-Regular, BoldFont=*-Bold,
   AutoFakeSlant=0.2,
 ]
 \setsanshangulfont{NanumGothic}[
-  Path=fonts/, Extension=.ttf,
+  Path=fonts/, Extension=.ttf, Scale=0.92,
   UprightFont=*-Regular, BoldFont=*-Bold,
   AutoFakeSlant=0.2,
 ]
 \setmonohangulfont{NanumGothic}[
-  Path=fonts/, Extension=.ttf,
+  Path=fonts/, Extension=.ttf, Scale=0.92,
   UprightFont=*-Regular, BoldFont=*-Bold,
 ]
 
