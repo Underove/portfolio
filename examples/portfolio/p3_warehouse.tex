@@ -20,7 +20,6 @@
   \item {\textbf{분포 특성}\enskip Train 250 / Test 100 / 교집합 50 / Test에만 50. 학습에 없던 \textbf{신규 창고 일반화}가 핵심.}
 \end{cvitems}
 
-\newpage
 \projpart{설계 과정 및 수행 내용}
 
 \stephead{1}{시계열 구조 복원 + AMR 도메인 피처 설계}
@@ -36,11 +35,12 @@
   \item \textbf{GroupKFold(by layout\_id)} --- 같은 창고가 학습·검증에 동시 등장하지 않게 분할해 신규 창고만으로 검증.
 \end{substeps}
 
+\newpage
 \stephead{3}{다중 모델 앙상블 + SLSQP 가중치 최적화}
 \begin{substeps}
-  \item 트리 모델만으로는 시간 흐름 학습이 어려워 트리 3종과 시퀀스 2종을 함께 구성.
+  \item 트리 모델만으로는 25개 시간 구간의 흐름을 학습하기 어려워 트리 3종과 시퀀스 2종을 함께 구성(XGBoost는 뒤 진단에서 노이즈로 판명되어 제외, 최종 4모델).
   \item 트리 3종(LightGBM·CatBoost·XGBoost)은 Optuna로 GroupKFold 탐색, 비대칭 분포 보정을 위해 log1p 학습·expm1 복원.
-  \item Bi-GRU는 (25, N) 시퀀스로 재구성해 LSTM 대비 경량으로 일반화에 유리(LB 10.1669 $\to$ 10.0194).
+  \item Bi-GRU는 (25, N) 시퀀스로 재구성해 LSTM 대비 파라미터를 절감, 신규 창고 일반화에 유리(LB 10.1669 $\to$ 10.0194 수직 상승).
   \item Bi-GRU + Multi-Head Attention은 4-head·잔차 연결·LayerNorm으로 먼 시점 관계를 포착.
   \item SLSQP로 OOF 최소화 가중치를 자동 탐색(합=1).
 \end{substeps}
@@ -48,8 +48,8 @@
 \stephead{4}{OOF--LB 디커플링 진단 및 모델 재구성}
 \begin{substeps}
   \item OOF--LB 갭 1.4가 지속되고 'OOF 개선 / LB 악화'가 4--5회 반복 --- 검증 지표 자체의 구조적 문제로 판단.
-  \item \textbf{(1)} train/test 분류기가 AUC = 1.0으로 완전 분리됨을 확인, 누수 점수로 피처 5개 제거(트리만 재학습) $\to$ LB 9.9983 $\to$ 9.9917.
-  \item \textbf{(2)} SLSQP에서 XGBoost 가중치가 0.0100으로 수렴 --- 노이즈로 판단·제외, 4모델로 재구성 $\to$ LB 9.9917 $\to$ 9.9890.
+  \item \textbf{(1)} train/test 분류기가 AUC = 1.0으로 완전 분리됨을 확인. 타깃 예측 순위와 adversarial 순위의 차로 누수 점수를 정량화해 피처 5개 제거(트리만 재학습, GRU/Attention은 시퀀스 신호 보존) $\to$ LB 9.9983 $\to$ 9.9917.
+  \item \textbf{(2)} SLSQP에서 XGBoost 가중치가 0.0100으로 수렴 --- 노이즈로 판단·제외, 4모델로 재구성(가중치 재분배: LightGBM 0.20 $\to$ 0.28, CatBoost 0.16 $\to$ 0.17, GRU 0.29, Attention GRU 0.26) $\to$ LB 9.9917 $\to$ 9.9890.
 \end{substeps}
 
 \stephead{5}{Dash 기반 운영 대시보드 구현}
