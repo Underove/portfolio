@@ -56,32 +56,32 @@
 }
 % 소제목(배경·데이터·설계 등) — 사각 마커 + 10.5pt 굵은 강조색 + 전폭 얇은 구분선(그리드 정렬)
 \newcommand{\projpart}[1]{%
-  \par\vspace{1.8mm}%
+  \par\vspace{1.3mm}%
   \noindent{\color{awesome}\rule[0.3ex]{2.0mm}{2.0mm}}\hspace{1.5mm}%
   {\fontsize{9pt}{1em}\bodyfont\bfseries\color{awesome}#1}\par
-  \vspace{0.9mm}%
+  \vspace{0.6mm}%
 }
 % 설계 단계 — 노션식: [배지][굵은 제목] 헤더 줄, 그 아래 서브 불릿(줄마다 한 포인트)
 \newcommand{\stephead}[2]{%
-  \par\vspace{1.5mm}%
+  \par\vspace{1.1mm}%
   \noindent{\cn{#1}}\hspace{1.7mm}{\fontsize{9.5pt}{1em}\bodyfont\bfseries\color{darktext}#2}\par
-  \vspace{0.4mm}%
+  \vspace{0.3mm}%
 }
 \newenvironment{substeps}{%
   \begingroup
-  \fontsize{9pt}{1.34em}\bodyfontlight\upshape\color{text}%
-  \begin{itemize}[leftmargin=6.5mm, itemsep=0.5mm, topsep=0.3mm, parsep=0pt,
+  \fontsize{9pt}{1.32em}\bodyfontlight\upshape\color{text}%
+  \begin{itemize}[leftmargin=6.5mm, itemsep=0.3mm, topsep=0.2mm, parsep=0pt,
                   label={\textcolor{awesome}{\footnotesize\textbullet}}]%
 }{%
   \end{itemize}%
   \endgroup
-  \vspace{0.2mm}%
+  \vspace{0.1mm}%
 }
 % 스크린샷 — 가운데 정렬 + 조금 작게 (높이는 선택 인자, 기본 6.2cm)
-\newcommand{\projfig}[2][6.2cm]{%
-  \par\vspace{1.0mm}%
+\newcommand{\projfig}[2][5.8cm]{%
+  \par\vspace{0.8mm}%
   {\centering\includegraphics[width=0.66\linewidth, height=#1, keepaspectratio]{#2}\par}%
-  \vspace{0.4mm}%
+  \vspace{0.3mm}%
 }
 
 %-------------------------------------------------------------------------------
