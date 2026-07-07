@@ -68,6 +68,28 @@
 }
 
 %-------------------------------------------------------------------------------
+% 클래스 기본값 교정
+%  - cvitems 는 \cventry 밖에서 쓰면 폰트 크기를 안 잡아 문서 기본 11pt 로 커짐
+%    → 성과(9pt)와 같은 9pt + 넉넉한 줄간격(1.42em)으로 고정해 크기 통일·겹침 제거
+%  - 문단(성과)도 같은 9pt/1.42em
+%  - 프로젝트 제목은 16pt → 13pt 로 축소
+%-------------------------------------------------------------------------------
+\renewenvironment{cvitems}{%
+  \vspace{-3.2mm}%
+  \begin{justify}%
+  \fontsize{9pt}{1.42em}\bodyfontlight\upshape\color{text}%
+  \begin{itemize}[leftmargin=2ex, nosep, noitemsep]%
+    \setlength{\parskip}{0pt}%
+    \renewcommand{\labelitemi}{\bullet}%
+}{%
+  \end{itemize}%
+  \end{justify}%
+  \vspace{1.0mm}%
+}
+\renewcommand*{\paragraphstyle}{\fontsize{9pt}{1.42em}\bodyfontlight\upshape\color{text}}
+\renewcommand*{\sectionstyleface}[1]{{\fontsize{13pt}{1em}\bodyfont\bfseries #1}}
+
+%-------------------------------------------------------------------------------
 %	PERSONAL INFORMATION
 %-------------------------------------------------------------------------------
 \photo[circle,edge,left]{profile}
