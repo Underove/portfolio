@@ -47,23 +47,24 @@
 %   \projsummary{한 줄 요약}  — 노션의 인용구(한 줄 소개)
 %   \projfig{파일}            — 가운데 정렬 스크린샷 (폭 맞춤, 최대 높이 제한)
 %-------------------------------------------------------------------------------
-% 한 줄 소개 — CV 소자 크기에 맞춰 9.5pt, 강조색 세로 바
+% 한 줄 소개 — 본문(성과)과 같은 9pt, 강조색 세로 바
 \newcommand{\projsummary}[1]{%
   \par\vspace{0.3mm}%
-  \noindent{\color{awesome}\rule[-0.3mm]{2pt}{3.1mm}}\enskip
-  {\fontsize{9.5pt}{1.25em}\bodyfontlight\upshape\color{darktext}#1}\par
+  \noindent{\color{awesome}\rule[-0.3mm]{2pt}{2.9mm}}\enskip
+  {\fontsize{9pt}{1.25em}\bodyfontlight\upshape\color{darktext}#1}\par
   \vspace{0.4mm}%
 }
-% 소제목(배경·데이터·설계 등) — 12pt \cvsubsection 대신 CV entry-title 크기(10pt) 굵은 라벨
+% 소제목(배경·데이터·설계 등) — 본문과 같은 9pt, 굵기·강조색으로만 구분
 \newcommand{\projpart}[1]{%
   \vspace{\acvSectionContentTopSkip}\vspace{-3mm}%
-  {\fontsize{10pt}{1em}\bodyfont\bfseries\color{awesome}#1}%
+  {\fontsize{9pt}{1em}\bodyfont\bfseries\color{awesome}#1}%
   \phantomsection
 }
-% 스크린샷 — 폭 0.84, 높이 상한으로 과하지 않게
+% 스크린샷 — 왼쪽 정렬 + 조금 작게
 \newcommand{\projfig}[1]{%
-  \par\vspace{1.1mm}%
-  \begin{center}\includegraphics[width=0.84\linewidth, height=7.4cm, keepaspectratio]{#1}\end{center}%
+  \par\vspace{1.0mm}%
+  \noindent\includegraphics[width=0.66\linewidth, height=6.2cm, keepaspectratio]{#1}\par%
+  \vspace{0.4mm}%
 }
 
 %-------------------------------------------------------------------------------
@@ -89,10 +90,15 @@
 %-------------------------------------------------------------------------------
 %	PROJECTS  (순서 = PDF 순서)
 %-------------------------------------------------------------------------------
+% 되도록 프로젝트 1개당 1페이지 (\newpage 로 구분)
 \input{portfolio/p1_bias.tex}       % 2025 DACON Bias-A-Thon (LLM 편향)
+\newpage
 \input{portfolio/p2_steel.tex}      % 2025 MixUP 철강 공정 (5위)
+\newpage
 \input{portfolio/p3_warehouse.tex}  % 2026 DACON 스마트 창고 (상위 11%)
+\newpage
 \input{portfolio/p4_curat3r.tex}    % ToBig's 21st Curat3R (3D)
+\newpage
 \input{portfolio/p5_pifiri.tex}     % ToBig's 20th Pi-FiRi (화재 로봇)
 
 \end{document}
