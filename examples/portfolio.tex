@@ -1,0 +1,75 @@
+%!TEX TS-program = lualatex
+%!TEX encoding = UTF-8 Unicode
+% Sangwoo Kim — Project Portfolio (Korean), built on Awesome-CV.
+% https://github.com/posquit0/Awesome-CV
+
+%-------------------------------------------------------------------------------
+% CONFIGURATIONS
+%-------------------------------------------------------------------------------
+\documentclass[11pt, a4paper]{awesome-cv}
+
+\geometry{left=1.4cm, top=.8cm, right=1.4cm, bottom=1.8cm, footskip=.5cm}
+
+\colorlet{awesome}{awesome-skyblue}
+\setbool{acvSectionColorHighlight}{true}
+\renewcommand{\acvHeaderSocialSep}{\quad\textbar\quad}
+
+%-------------------------------------------------------------------------------
+% 한글 폰트 (레포에 동봉한 나눔고딕을 Path 로 직접 지정 → CI 이미지 폰트에 의존하지 않음)
+%-------------------------------------------------------------------------------
+\usepackage{kotex}
+\setmainhangulfont{NanumGothic}[
+  Path=fonts/, Extension=.ttf,
+  UprightFont=*-Regular, BoldFont=*-Bold,
+  AutoFakeSlant=0.2,
+]
+\setsanshangulfont{NanumGothic}[
+  Path=fonts/, Extension=.ttf,
+  UprightFont=*-Regular, BoldFont=*-Bold,
+  AutoFakeSlant=0.2,
+]
+\setmonohangulfont{NanumGothic}[
+  Path=fonts/, Extension=.ttf,
+  UprightFont=*-Regular, BoldFont=*-Bold,
+]
+
+%-------------------------------------------------------------------------------
+%	PERSONAL INFORMATION
+%-------------------------------------------------------------------------------
+\photo[circle,edge,left]{profile}
+\name{Sangwoo}{Kim}
+\mobile{(+82) 10-7378-4886}
+\email{swjohn0121@cau.ac.kr}
+\homepage{underove.github.io}
+\github{Underove}
+\quote{``I enjoy turning theory into systems that work in the real world.''}
+
+%-------------------------------------------------------------------------------
+\begin{document}
+
+\makecvheader
+\makecvfooter
+  {}
+  {Sangwoo Kim {\enskip\textbar\enskip} Project Portfolio}
+  {\thepage}
+
+%===============================================================================
+% 폰트 검증용 최소 콘텐츠 — 렌더 확인 후 전체 프로젝트로 교체합니다.
+%===============================================================================
+\cvsection{프로젝트 렌더 테스트}
+
+\begin{cventries}
+  \cventry
+    {2025 DACON Bias-A-Thon \textbf{--- Track 2}}
+    {LLM 편향 완화: 컨텍스트 접지 기반 2단계 CoT}
+    {Online}
+    {2025.04 -- 2025.05}
+    {
+      \begin{cvitems}
+        \item {한글 본문 렌더링 테스트입니다. 굵게(\textbf{강조}) 처리와 English 123 혼용, 그리고 특수기호 R\textsuperscript{2}, $\sim$60\%, 0.528 $\to$ 0.843 까지 확인합니다.}
+        \item {섹션 제목·엔트리 제목·불릿 모두에서 한글이 정상 글자로 나오는지 확인합니다.}
+      \end{cvitems}
+    }
+\end{cventries}
+
+\end{document}

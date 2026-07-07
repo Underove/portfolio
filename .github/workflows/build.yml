@@ -1,0 +1,68 @@
+name: Build Portfolio
+
+# examples/ 안의 .tex 를 고쳐 push 하면 자동으로 portfolio.pdf 를 빌드합니다.
+# 루트의 *.pdf 만 바뀐 경우엔 재실행되지 않게 paths 로 막아 무한루프를 방지합니다.
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - 'examples/**'
+      - '.github/workflows/build.yml'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write   # 빌드된 PDF 를 레포에 자동 커밋하기 위해 필요
+
+concurrency:
+  group: build-portfolio-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Compile portfolio.tex (lualatex)
+        uses: xu-cheng/latex-action@v3
+        with:
+          working_directory: examples
+          root_file: |
+            portfolio.tex
+          compiler: latexmk
+          args: -lualatex -file-line-error -halt-on-error -interaction=nonstopmode
+
+      - name: Copy PDF to repo root
+        run: cp examples/portfolio.pdf ./portfolio.pdf
+
+      - name: Upload PDF as build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: portfolio-pdf
+          path: portfolio.pdf
+
+      - name: Commit PDF back to the repo
+        env:
+          BRANCH: ${{ github.ref_name }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- '*.pdf'
+          if git diff --cached --quiet; then
+            echo "PDF 변경 없음 — 커밋 생략."
+            exit 0
+          fi
+          git commit -m "chore: rebuild portfolio PDF [skip ci]"
+          for i in 1 2 3 4 5; do
+            if git push origin "HEAD:${BRANCH}"; then
+              echo "푸시 완료."
+              exit 0
+            fi
+            echo "원격이 먼저 갱신됨 — rebase 후 재시도 ($i/5)"
+            git fetch origin "${BRANCH}"
+            git rebase -X theirs "origin/${BRANCH}" || git rebase --abort
+            sleep 2
+          done
+          echo "재시도 후에도 푸시 실패"
+          exit 1
