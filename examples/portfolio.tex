@@ -54,11 +54,23 @@
   {\fontsize{9pt}{1.25em}\bodyfontlight\upshape\color{darktext}#1}\par
   \vspace{0.4mm}%
 }
-% 소제목(배경·데이터·설계 등) — 본문과 같은 9pt, 굵기·강조색으로만 구분
+% 소제목(배경·데이터·설계 등) — 사각 마커 + 10.5pt 굵은 강조색 + 전폭 얇은 구분선(그리드 정렬)
 \newcommand{\projpart}[1]{%
-  \vspace{\acvSectionContentTopSkip}\vspace{-3mm}%
-  {\fontsize{9pt}{1em}\bodyfont\bfseries\color{awesome}#1}%
-  \phantomsection
+  \par\vspace{2.4mm}%
+  \noindent{\color{awesome}\rule[0.35ex]{2.2mm}{2.2mm}}\hspace{1.7mm}%
+  {\fontsize{10.5pt}{1em}\bodyfont\bfseries\color{awesome}#1}\par
+  \vspace{0.7mm}%
+  \noindent{\color{awesome!30}\rule{\linewidth}{0.5pt}}\par
+  \vspace{1.4mm}%
+}
+% 설계 단계 — 노션식: [배지][굵은 제목]을 헤더 줄에, 설명은 아래 들여쓰기
+\newcommand{\step}[3]{%
+  \par\vspace{1.9mm}%
+  \noindent{\cn{#1}}\hspace{1.8mm}{\fontsize{9.5pt}{1em}\bodyfont\bfseries\color{darktext}#2}\par
+  \vspace{0.6mm}%
+  \begingroup\leftskip=6mm\relax
+  {\fontsize{9pt}{1.42em}\bodyfontlight\upshape\color{text}\noindent #3\par}%
+  \endgroup
 }
 % 스크린샷 — 가운데 정렬 + 조금 작게 (높이는 선택 인자, 기본 6.2cm)
 \newcommand{\projfig}[2][6.2cm]{%
@@ -75,7 +87,7 @@
 %  - 프로젝트 제목은 16pt → 13pt 로 축소
 %-------------------------------------------------------------------------------
 \renewenvironment{cvitems}{%
-  \vspace{-3.2mm}%
+  \vspace{-1.5mm}%
   \begin{justify}%
   \fontsize{9pt}{1.42em}\bodyfontlight\upshape\color{text}%
   \begin{itemize}[leftmargin=2ex, nosep, noitemsep]%
