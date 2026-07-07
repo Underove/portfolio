@@ -33,6 +33,25 @@
   UprightFont=*-Regular, BoldFont=*-Bold,
 ]
 
+% 노션에 담긴 스크린샷을 img/ 에서 불러옵니다.
+\graphicspath{{img/}{./}}
+
+%-------------------------------------------------------------------------------
+% 프로젝트 공통 서식 헬퍼
+%   \projsummary{한 줄 요약}  — 노션의 인용구(한 줄 소개)
+%   \projfig{파일}            — 가운데 정렬 스크린샷 (폭 맞춤, 최대 높이 제한)
+%-------------------------------------------------------------------------------
+\newcommand{\projsummary}[1]{%
+  \par\vspace{0.2mm}%
+  \noindent{\color{awesome}\rule[-0.2mm]{2.2pt}{3.4mm}}\enskip{\normalsize\color{darktext}#1}\par
+  \vspace{1.2mm}%
+}
+\newcommand{\projfig}[1]{%
+  \par\vspace{1.4mm}%
+  \begin{center}\includegraphics[width=0.9\linewidth, height=8.4cm, keepaspectratio]{#1}\end{center}%
+  \vspace{0.2mm}%
+}
+
 %-------------------------------------------------------------------------------
 %	PERSONAL INFORMATION
 %-------------------------------------------------------------------------------
@@ -53,23 +72,13 @@
   {Sangwoo Kim {\enskip\textbar\enskip} Project Portfolio}
   {\thepage}
 
-%===============================================================================
-% 폰트 검증용 최소 콘텐츠 — 렌더 확인 후 전체 프로젝트로 교체합니다.
-%===============================================================================
-\cvsection{프로젝트 렌더 테스트}
-
-\begin{cventries}
-  \cventry
-    {2025 DACON Bias-A-Thon \textbf{--- Track 2}}
-    {LLM 편향 완화: 컨텍스트 접지 기반 2단계 CoT}
-    {Online}
-    {2025.04 -- 2025.05}
-    {
-      \begin{cvitems}
-        \item {한글 본문 렌더링 테스트입니다. 굵게(\textbf{강조}) 처리와 English 123 혼용, 그리고 특수기호 R\textsuperscript{2}, $\sim$60\%, 0.528 $\to$ 0.843 까지 확인합니다.}
-        \item {섹션 제목·엔트리 제목·불릿 모두에서 한글이 정상 글자로 나오는지 확인합니다.}
-      \end{cvitems}
-    }
-\end{cventries}
+%-------------------------------------------------------------------------------
+%	PROJECTS  (순서 = PDF 순서)
+%-------------------------------------------------------------------------------
+\input{portfolio/p1_bias.tex}       % 2025 DACON Bias-A-Thon (LLM 편향)
+\input{portfolio/p2_steel.tex}      % 2025 MixUP 철강 공정 (5위)
+\input{portfolio/p3_warehouse.tex}  % 2026 DACON 스마트 창고 (상위 11%)
+\input{portfolio/p4_curat3r.tex}    % ToBig's 21st Curat3R (3D)
+\input{portfolio/p5_pifiri.tex}     % ToBig's 20th Pi-FiRi (화재 로봇)
 
 \end{document}
