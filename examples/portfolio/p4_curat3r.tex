@@ -8,8 +8,8 @@
 
 \projpart{배경 및 목표}
 \begin{cvitems}
-  \item {\textbf{배경}\enskip 최근 '개인 아카이빙 문화'가 확산되고 있으나, 기존 2D 중심 기록 방식으로는 물체의 입체적인 요소를 온전히 보존하기 어렵다는 한계가 존재.}
-  \item {\textbf{목표}\enskip 단일 2D 이미지 기반 3D 재구성 모델을 활용해 물체의 입체적 특성을 보존·공유하는, 웹 기반 디지털 아카이빙 플랫폼을 개발.}
+  \item {\textbf{배경}\enskip 최근 '개인 아카이빙 문화'가 확산되고 있음. 그러나 기존 2D 중심 기록으로는 물체의 입체적 요소를 온전히 보존하기 어렵다는 한계가 존재.}
+  \item {\textbf{목표}\enskip 단일 2D 이미지 기반 3D 재구성으로 물체의 입체적 특성을 보존·공유하는, 웹 기반 디지털 아카이빙 플랫폼을 개발.}
   \item {\textbf{개발 기간}\enskip 2025.10 -- 2026.01}
   \item {\textbf{기술 스택}\enskip Python · PyTorch · SPAR3D · TRELLIS.2 · CLIP · React · Three.js}
   \item {\textbf{사용 GPU}\enskip NVIDIA RTX 5090 (Vast.ai 대여)}
@@ -20,7 +20,7 @@
 
 \projpart{설계 과정 및 수행 내용}
 \begin{cvitems}
-  \item {\textbf{\cn{1} CLIP 기반 Semantic 전처리 시스템 설계}\enskip 3D 재구성 모델은 객체의 재질(투명·반사)이나 구도(잘림)에 따라 생성 품질 격차가 크고 부적절한 입력은 서버 리소스를 낭비. CLIP(ViT-B/32) Zero-shot 필터링으로 입력의 의미론적 특징을 분석해 3D 복원 적합성을 5단계로 분류('논문 피어 리뷰' 프로세스를 참고: Early Reject / Reject / Major·Minor Revision Needed / Accept). AI의 오판 가능성을 고려해 사용자가 최종 생성 여부를 결정하는 'Human Override' 인터페이스로 데이터 무결성을 확보.}
-  \item {\textbf{\cn{2} Dual-Track 추론 파이프라인 (사용자 요구 맞춤형 설계)}\enskip 실시간 서비스에 필요한 '생성 속도'와 결과물 '정밀도' 사이의 Trade-off를 해결. \textbf{Fast Track(SPAR3D)}는 약 0.7초의 초고속 추론으로 즉각적인 3D 결과 확인이 필요한 체험형 사용자에 대응하고, \textbf{Quality Track(TRELLIS.2)}는 정밀 복원이 필요한 아카이빙 목적의 고해상도 생성 파이프라인을 연동.}
-  \item {\textbf{\cn{3} Three.js 기반 인터랙티브 웹 갤러리}\enskip 별도 설치 없이 웹 브라우저에서 3D 모델을 즉시 감상하도록 Three.js·WebGL 환경을 구축해 360도 회전·확대 등 실시간 상호작용을 구현하고, 개별 결과물을 관리·공유하는 '사용자 커스텀 피드' 디지털 큐레이션 기능을 설계.}
+  \item {\textbf{\cn{1} CLIP 기반 Semantic 전처리 시스템 설계}\enskip 3D 재구성 모델은 재질(투명·반사)·구도(잘림)에 따라 생성 품질 격차가 크고, 부적절한 입력은 서버 리소스를 낭비. CLIP(ViT-B/32) Zero-shot 필터링으로 3D 복원 적합성을 5단계로 분류(Early Reject / Reject / Major·Minor Revision / Accept, '논문 피어 리뷰' 참고). AI의 오판을 대비해 사용자가 최종 생성을 결정하는 'Human Override' 인터페이스로 무결성을 확보.}
+  \item {\textbf{\cn{2} Dual-Track 추론 파이프라인 (사용자 요구 맞춤형)}\enskip 실시간 서비스의 '속도'와 결과물 '정밀도' 사이 Trade-off를 해결. \textbf{Fast Track(SPAR3D)}는 약 0.7초 초고속 추론으로 즉각 확인이 필요한 체험형 사용자에 대응. \textbf{Quality Track(TRELLIS.2)}는 정밀 복원이 필요한 아카이빙 목적의 고해상도 생성을 담당.}
+  \item {\textbf{\cn{3} Three.js 기반 인터랙티브 웹 갤러리}\enskip 별도 설치 없이 브라우저에서 3D 모델을 즉시 감상하도록 Three.js·WebGL 환경을 구축. 360도 회전·확대 등 실시간 상호작용을 구현. 개별 결과물을 관리·공유하는 '사용자 커스텀 피드' 디지털 큐레이션 기능도 설계.}
 \end{cvitems}

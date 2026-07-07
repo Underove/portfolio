@@ -60,10 +60,10 @@
   {\fontsize{9pt}{1em}\bodyfont\bfseries\color{awesome}#1}%
   \phantomsection
 }
-% 스크린샷 — 왼쪽 정렬 + 조금 작게 (높이는 선택 인자, 기본 6.2cm)
+% 스크린샷 — 가운데 정렬 + 조금 작게 (높이는 선택 인자, 기본 6.2cm)
 \newcommand{\projfig}[2][6.2cm]{%
   \par\vspace{1.0mm}%
-  \noindent\includegraphics[width=0.66\linewidth, height=#1, keepaspectratio]{#2}\par%
+  {\centering\includegraphics[width=0.66\linewidth, height=#1, keepaspectratio]{#2}\par}%
   \vspace{0.4mm}%
 }
 
