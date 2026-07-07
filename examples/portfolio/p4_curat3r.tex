@@ -19,6 +19,24 @@
 \projfig{p4pipe.png}
 
 \projpart{설계 과정 및 수행 내용}
-\step{1}{CLIP 기반 Semantic 전처리 시스템 설계}{3D 재구성 모델은 재질(투명·반사)·구도(잘림)에 따라 생성 품질 격차가 크고, 부적절한 입력은 서버 리소스를 낭비. CLIP(ViT-B/32) Zero-shot 필터링으로 3D 복원 적합성을 5단계로 분류(Early Reject / Reject / Major·Minor Revision / Accept, '논문 피어 리뷰' 참고). AI의 오판을 대비해 사용자가 최종 생성을 결정하는 'Human Override' 인터페이스로 무결성을 확보.}
-\step{2}{Dual-Track 추론 파이프라인 (사용자 요구 맞춤형)}{실시간 서비스의 '속도'와 결과물 '정밀도' 사이 Trade-off를 해결. \textbf{Fast Track(SPAR3D)}는 약 0.7초 초고속 추론으로 즉각 확인이 필요한 체험형 사용자에 대응. \textbf{Quality Track(TRELLIS.2)}는 정밀 복원이 필요한 아카이빙 목적의 고해상도 생성을 담당.}
-\step{3}{Three.js 기반 인터랙티브 웹 갤러리}{별도 설치 없이 브라우저에서 3D 모델을 즉시 감상하도록 Three.js·WebGL 환경을 구축. 360도 회전·확대 등 실시간 상호작용을 구현. 개별 결과물을 관리·공유하는 '사용자 커스텀 피드' 디지털 큐레이션 기능도 설계.}
+
+\stephead{1}{CLIP 기반 Semantic 전처리 시스템 설계}
+\begin{substeps}
+  \item 3D 재구성 모델은 재질(투명·반사)·구도(잘림)에 따라 품질 격차가 크고, 부적절한 입력은 리소스를 낭비.
+  \item CLIP(ViT-B/32) Zero-shot 필터링으로 3D 복원 적합성을 5단계로 분류(Early Reject / Reject / Major·Minor Revision / Accept, '논문 피어 리뷰' 참고).
+  \item AI 오판을 대비해 사용자가 최종 생성을 결정하는 'Human Override' 인터페이스로 무결성을 확보.
+\end{substeps}
+
+\stephead{2}{Dual-Track 추론 파이프라인 (사용자 요구 맞춤형)}
+\begin{substeps}
+  \item 실시간 서비스의 '속도'와 결과물 '정밀도' 사이 Trade-off를 해결.
+  \item \textbf{Fast Track(SPAR3D)} --- 약 0.7초 초고속 추론으로 즉각 확인이 필요한 체험형 사용자에 대응.
+  \item \textbf{Quality Track(TRELLIS.2)} --- 정밀 복원이 필요한 아카이빙 목적의 고해상도 생성을 담당.
+\end{substeps}
+
+\stephead{3}{Three.js 기반 인터랙티브 웹 갤러리}
+\begin{substeps}
+  \item 별도 설치 없이 브라우저에서 3D 모델을 즉시 감상하도록 Three.js·WebGL 환경을 구축.
+  \item 360도 회전·확대 등 실시간 상호작용을 구현.
+  \item 개별 결과물을 관리·공유하는 '사용자 커스텀 피드' 디지털 큐레이션 기능도 설계.
+\end{substeps}

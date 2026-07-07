@@ -21,11 +21,42 @@
 \end{cvitems}
 
 \projpart{설계 과정 및 수행 내용}
-\step{1}{시계열 구조 복원 + AMR 도메인 피처 설계}{시나리오 안 행 순서가 뒤섞여 시계열 학습이 불가. 시나리오 ID·행 번호로 재정렬해 시간 순서를 복원하고 시점 인덱스(0--24)를 피처화. 핵심 지표 8개에 시간 변형 4종(lag·rolling·pure-past·시나리오 평균)을 적용. 여기에 AMR 도메인 합성 피처(교차로 지연 비용, 단계별 부하, 실질 혼잡도 = 혼잡도 $\times$ 교차로 밀도 / 통로 폭)로 '좁은 통로일수록 같은 혼잡도가 더 큰 지연'을 수식화.}
-\step{2}{신규 창고 일반화: kNN 인코딩 + GroupKFold}{학습에 없던 창고 50개도 잘 예측하도록 두 장치를 병행. \textbf{kNN 인코딩}은 정적 정보 13개와 구조 타입을 정규화해, 코사인 거리로 유사한 5개 창고의 평균·표준편차·최댓값을 피처화(자기 자신 제외로 유출 차단). \textbf{GroupKFold(by layout\_id)}는 같은 창고가 학습·검증에 동시 등장하지 않게 분할해 신규 창고만으로 검증.}
-\step{3}{다중 모델 앙상블 + SLSQP 가중치 최적화}{트리 모델만으로는 시간 흐름 학습이 어려워 트리 3종과 시퀀스 2종을 함께 구성. 트리 3종(LightGBM·CatBoost·XGBoost)은 Optuna로 GroupKFold 탐색, 비대칭 분포 보정을 위해 log1p 학습·expm1 복원. Bi-GRU는 (25, N) 시퀀스로 재구성해 LSTM 대비 경량으로 일반화에 유리(LB 10.1669 $\to$ 10.0194). Bi-GRU + Multi-Head Attention은 4-head·잔차 연결·LayerNorm으로 먼 시점 관계를 포착. 마지막으로 SLSQP로 OOF 최소화 가중치를 자동 탐색(합=1).}
-\step{4}{OOF--LB 디커플링 진단 및 모델 재구성}{GroupKFold 이후에도 OOF--LB 갭 1.4가 지속되고 'OOF 개선 / LB 악화'가 4--5회 반복 — 검증 지표 자체의 구조적 문제로 판단. \textbf{(1)} train/test 이진 분류기가 AUC = 1.0으로 완전 분리됨을 확인, 피처별 누수 점수를 정량화해 5개 제거(트리만 재학습, GRU/Attention은 시퀀스 신호 보존) $\to$ LB 9.9983 $\to$ 9.9917. \textbf{(2)} SLSQP에서 XGBoost 가중치가 0.0100으로 수렴해 노이즈로 판단·제외, 4모델로 재구성(LightGBM 0.28·CatBoost 0.17·GRU 0.29·Attention GRU 0.26) $\to$ LB 9.9917 $\to$ 9.9890.}
-\step{5}{Dash 기반 운영 대시보드 구현}{'예측 $\to$ 진단 $\to$ 시뮬레이션 $\to$ 액션'을 한 화면에 잇는 6개 섹션을 설계. What-If 슬라이더로 핵심 신호 4개를 조정하면 연동된 16개 합성 피처가 자동 재계산되어 즉시 새 예측을 표시. 피처 엔지니어링을 모듈화하고 50,000행 캐시 + 20개 모델(5-fold $\times$ 4종) + SHAP 사전 계산(50,000 $\times$ 168)으로 '30분 후 위험 $\to$ 원인 신호 $\to$ 액션 효과'를 한 페이지에서 검증.}
+
+\stephead{1}{시계열 구조 복원 + AMR 도메인 피처 설계}
+\begin{substeps}
+  \item 행 순서가 뒤섞여 있어, 시나리오 ID·행 번호로 재정렬해 시간 순서를 복원하고 시점 인덱스(0--24)를 피처화.
+  \item 핵심 지표 8개에 시간 변형 4종(lag·rolling·pure-past·시나리오 평균)을 적용.
+  \item AMR 도메인 합성 피처(교차로 지연 비용, 단계별 부하, 실질 혼잡도 = 혼잡도 $\times$ 교차로 밀도 / 통로 폭)로 '좁은 통로일수록 같은 혼잡도가 더 큰 지연'을 수식화.
+\end{substeps}
+
+\stephead{2}{신규 창고 일반화: kNN 인코딩 + GroupKFold}
+\begin{substeps}
+  \item \textbf{kNN 인코딩} --- 정적 정보 13개와 구조 타입을 정규화해, 코사인 거리로 유사한 5개 창고의 평균·표준편차·최댓값을 피처화(자기 자신 제외로 유출 차단).
+  \item \textbf{GroupKFold(by layout\_id)} --- 같은 창고가 학습·검증에 동시 등장하지 않게 분할해 신규 창고만으로 검증.
+\end{substeps}
+
+\stephead{3}{다중 모델 앙상블 + SLSQP 가중치 최적화}
+\begin{substeps}
+  \item 트리 모델만으로는 시간 흐름 학습이 어려워 트리 3종과 시퀀스 2종을 함께 구성.
+  \item 트리 3종(LightGBM·CatBoost·XGBoost)은 Optuna로 GroupKFold 탐색, 비대칭 분포 보정을 위해 log1p 학습·expm1 복원.
+  \item Bi-GRU는 (25, N) 시퀀스로 재구성해 LSTM 대비 경량으로 일반화에 유리(LB 10.1669 $\to$ 10.0194).
+  \item Bi-GRU + Multi-Head Attention은 4-head·잔차 연결·LayerNorm으로 먼 시점 관계를 포착.
+  \item SLSQP로 OOF 최소화 가중치를 자동 탐색(합=1).
+\end{substeps}
+
+\stephead{4}{OOF--LB 디커플링 진단 및 모델 재구성}
+\begin{substeps}
+  \item OOF--LB 갭 1.4가 지속되고 'OOF 개선 / LB 악화'가 4--5회 반복 --- 검증 지표 자체의 구조적 문제로 판단.
+  \item \textbf{(1)} train/test 분류기가 AUC = 1.0으로 완전 분리됨을 확인, 누수 점수로 피처 5개 제거(트리만 재학습) $\to$ LB 9.9983 $\to$ 9.9917.
+  \item \textbf{(2)} SLSQP에서 XGBoost 가중치가 0.0100으로 수렴 --- 노이즈로 판단·제외, 4모델로 재구성 $\to$ LB 9.9917 $\to$ 9.9890.
+\end{substeps}
+
+\stephead{5}{Dash 기반 운영 대시보드 구현}
+\begin{substeps}
+  \item '예측 $\to$ 진단 $\to$ 시뮬레이션 $\to$ 액션'을 한 화면에 잇는 6개 섹션을 설계.
+  \item What-If 슬라이더로 핵심 신호 4개를 조정하면 연동된 16개 합성 피처가 자동 재계산되어 즉시 새 예측을 표시.
+  \item 50,000행 캐시 + 20개 모델(5-fold $\times$ 4종) + SHAP 사전 계산(50,000 $\times$ 168)으로 원인 신호까지 즉시 제공.
+\end{substeps}
 
 \projpart{성과}
 \begin{cvparagraph}
