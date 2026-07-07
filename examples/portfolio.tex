@@ -36,6 +36,11 @@
 % 노션에 담긴 스크린샷을 img/ 에서 불러옵니다.
 \graphicspath{{img/}{./}}
 
+% 동그라미 번호(①②③)는 폰트 글리프에 의존하지 않도록 강조색 배지로 직접 그립니다.
+\usepackage{tikz}
+\newcommand{\cn}[1]{\tikz[baseline=-0.62ex]{\node[circle, fill=awesome, text=white,
+  font=\scriptsize\bfseries, inner sep=0pt, minimum size=3.7mm]{#1};}}
+
 %-------------------------------------------------------------------------------
 % 프로젝트 공통 서식 헬퍼
 %   \projsummary{한 줄 요약}  — 노션의 인용구(한 줄 소개)
