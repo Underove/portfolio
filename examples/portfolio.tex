@@ -57,31 +57,42 @@
 % 소제목(배경·데이터·설계 등) — 사각 마커 + 10.5pt 굵은 강조색 + 전폭 얇은 구분선(그리드 정렬)
 \newcommand{\projpart}[1]{%
   \par\vspace{1.3mm}%
-  \noindent{\color{awesome}\rule[0.3ex]{2.0mm}{2.0mm}}\hspace{1.5mm}%
-  {\fontsize{9pt}{1em}\bodyfont\bfseries\color{awesome}#1}\par
+  \noindent{\fontsize{9pt}{1em}\bodyfont\bfseries\color{awesome}#1}\par
   \vspace{0.6mm}%
 }
 % 설계 단계 — 노션식: [배지][굵은 제목] 헤더 줄, 그 아래 서브 불릿(줄마다 한 포인트)
 \newcommand{\stephead}[2]{%
   \par\vspace{1.1mm}%
   \noindent{\cn{#1}}\hspace{1.7mm}{\fontsize{9.5pt}{1em}\bodyfont\bfseries\color{darktext}#2}\par
-  \vspace{0.3mm}%
+  \vspace{-0.8mm}%
 }
 \newenvironment{substeps}{%
   \begingroup
   \fontsize{9pt}{1.32em}\bodyfontlight\upshape\color{text}%
-  \begin{itemize}[leftmargin=6.5mm, itemsep=0.3mm, topsep=0.2mm, parsep=0pt,
+  \begin{itemize}[leftmargin=6.5mm, itemsep=0.3mm, topsep=0pt, partopsep=0pt, parsep=0pt,
                   label={\textcolor{awesome}{\footnotesize\textbullet}}]%
 }{%
   \end{itemize}%
   \endgroup
   \vspace{0.1mm}%
 }
+% 성과 — 한 줄이므로 라벨 옆에 인라인(줄바꿈 없이), 본문과 같은 9pt
+\newcommand{\achievement}[1]{%
+  \par\vspace{1.3mm}%
+  \noindent{\fontsize{9pt}{1em}\bodyfont\bfseries\color{awesome}성과}\enskip
+  {\fontsize{9pt}{1.34em}\bodyfontlight\upshape\color{text}#1}\par
+}
 % 스크린샷 — 가운데 정렬 + 조금 작게 (높이는 선택 인자, 기본 6.2cm)
-\newcommand{\projfig}[2][5.8cm]{%
-  \par\vspace{0.8mm}%
-  {\centering\includegraphics[width=0.66\linewidth, height=#1, keepaspectratio]{#2}\par}%
+\newcommand{\projfig}[2][4.6cm]{%
+  \par\vspace{0.7mm}%
+  {\centering\includegraphics[width=0.62\linewidth, height=#1, keepaspectratio]{#2}\par}%
   \vspace{0.3mm}%
+}
+% 큰 이미지 (2페이지 프로젝트용) — 넓은 폭 + 큰 높이 상한으로 잘 보이게
+\newcommand{\projfigL}[2][6.5cm]{%
+  \par\vspace{0.9mm}%
+  {\centering\includegraphics[width=0.86\linewidth, height=#1, keepaspectratio]{#2}\par}%
+  \vspace{0.4mm}%
 }
 
 %-------------------------------------------------------------------------------

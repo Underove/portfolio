@@ -4,7 +4,7 @@
 \cvsection{3. 2026 DACON : 스마트 창고 출고 지연 예측 AI 경진대회}
 
 \projsummary{AMR(자율이동로봇) 스마트 물류창고 운영 데이터를 기반으로, 출고 지연 시간을 미리 예측하는 모델 개발}
-\projfig{p3.png}
+\projfigL{p3.png}
 
 \projpart{배경 및 목표}
 \begin{cvitems}
@@ -20,13 +20,14 @@
   \item {\textbf{분포 특성}\enskip Train 250 / Test 100 / 교집합 50 / Test에만 50. 학습에 없던 \textbf{신규 창고 일반화}가 핵심.}
 \end{cvitems}
 
+\newpage
 \projpart{설계 과정 및 수행 내용}
 
 \stephead{1}{시계열 구조 복원 + AMR 도메인 피처 설계}
 \begin{substeps}
   \item 행 순서가 뒤섞여 있어, 시나리오 ID·행 번호로 재정렬해 시간 순서를 복원하고 시점 인덱스(0--24)를 피처화.
   \item 핵심 지표 8개에 시간 변형 4종(lag·rolling·pure-past·시나리오 평균)을 적용.
-  \item AMR 도메인 합성 피처(교차로 지연 비용, 단계별 부하, 실질 혼잡도 = 혼잡도 $\times$ 교차로 밀도 / 통로 폭)로 '좁은 통로일수록 같은 혼잡도가 더 큰 지연'을 수식화.
+  \item AMR 도메인 합성 피처(교차로 지연 비용, 단계별 부하 지표(포장 병목·충전기 압력 등), 실질 혼잡도 = 혼잡도 $\times$ 교차로 밀도 / 통로 폭)로 '좁은 통로일수록 같은 혼잡도가 더 큰 지연'을 수식화.
 \end{substeps}
 
 \stephead{2}{신규 창고 일반화: kNN 인코딩 + GroupKFold}
@@ -53,12 +54,9 @@
 
 \stephead{5}{Dash 기반 운영 대시보드 구현}
 \begin{substeps}
-  \item '예측 $\to$ 진단 $\to$ 시뮬레이션 $\to$ 액션'을 한 화면에 잇는 6개 섹션을 설계.
+  \item '예측 $\to$ 진단 $\to$ 시뮬레이션 $\to$ 액션'을 한 화면에 잇는 6개 섹션(물류 파이프라인 $\to$ 현재 예측 $\to$ 시점별 추이·알림 $\to$ SHAP 기여 분해 $\to$ 운영 패턴 Radar $\to$ What-If)을 설계.
   \item What-If 슬라이더로 핵심 신호 4개를 조정하면 연동된 16개 합성 피처가 자동 재계산되어 즉시 새 예측을 표시.
-  \item 50,000행 캐시 + 20개 모델(5-fold $\times$ 4종) + SHAP 사전 계산(50,000 $\times$ 168)으로 원인 신호까지 즉시 제공.
+  \item 학습 노트북의 피처 엔지니어링을 모듈화하고, 50,000행 캐시 + 20개 모델(5-fold $\times$ 4종) + SHAP 사전 계산(50,000 $\times$ 168)으로 원인 신호까지 즉시 제공.
 \end{substeps}
 
-\projpart{성과}
-\begin{cvparagraph}
-베이스라인 MAE \textbf{12.6160 $\to$ 9.9890} 개선, \textbf{최종 68위 (상위 11\%)}. 검증 지표의 구조적 결함을 진단·교정한 과정이 성능 향상의 핵심.
-\end{cvparagraph}
+\achievement{베이스라인 MAE \textbf{12.6160 $\to$ 9.9890} 개선, \textbf{최종 68위 (상위 11\%)}. 검증 지표의 구조적 결함을 진단·교정한 과정이 성능 향상의 핵심.}
