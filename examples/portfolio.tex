@@ -37,8 +37,7 @@
 % 노션에 담긴 스크린샷을 img/ 에서 불러옵니다.
 \graphicspath{{img/}{./}}
 
-% 분류 라벨 아이콘 — 이모지는 폰트에 글리프가 없어 안 뜨므로 FontAwesome 모노 아이콘 사용(테마색 상속).
-\usepackage{fontawesome5}
+% 분류 라벨 아이콘 — 클래스가 로드한 fontawesome6 명령을 그대로 사용(테마색 상속).
 % 동그라미 번호(①②③)는 폰트 글리프에 의존하지 않도록 강조색 배지로 직접 그립니다.
 \usepackage{tikz}
 \newcommand{\cn}[1]{\tikz[baseline=-0.62ex]{\node[circle, fill=awesome, text=white,

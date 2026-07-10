@@ -14,10 +14,10 @@
   \item {\textbf{기술 스택}\enskip \pill{Python} \pill{TensorFlow} \pill{Raspberry Pi} \pill{EfficientDet-Lite1} \pill{Flask} \pill{LangChain} \pill{Solar Pro2} \pill{OpenCV} \pill{PID Control} \pill{Streamlit}}
 \end{cvitems}
 
-\projpart{\faTools\hspace{1.3mm}파이프라인}
+\projpart{\faScrewdriverWrench\hspace{1.3mm}파이프라인}
 \projfigL[6.0cm]{p5pipe.png}
 
-\projpart{\faCog\hspace{1.3mm}시스템 및 하드웨어 구성}
+\projpart{\faGear\hspace{1.3mm}시스템 및 하드웨어 구성}
 \begin{cvitems}
   \item {\textbf{EfficientDet-Lite1}\enskip 엣지 구동을 위해 TFLite 모델 중 속도(49ms)와 정확도(mAP 30.55\%)의 균형점인 'Lite1'을 선정하고, Roboflow Universe의 Fire\&Smoke Dataset을 수집·증강해 파인튜닝.}
   \item {\textbf{연속 감지 필터링}\enskip 단일 프레임 노이즈로 인한 오탐을 막기 위해, 0.5 임계값 이상 탐지가 1.2초 연속 유지될 때만 화재로 확정.}
@@ -28,7 +28,7 @@
 \end{cvitems}
 
 \newpage
-\projpart{\faSearch\hspace{1.3mm}설계 과정 및 수행 내용}
+\projpart{\faMagnifyingGlass\hspace{1.3mm}설계 과정 및 수행 내용}
 
 \stephead{1}{PID 제어 로직을 통한 주행 안정화 (하드웨어 한계 보완)}
 \begin{substeps}
