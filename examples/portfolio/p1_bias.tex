@@ -6,7 +6,7 @@
 \projsummary{컨텍스트 접지(Grounding)를 활용한 2단계 CoT 기반 LLM 편향 완화 및 공정성 제어}
 \projfig{p1.png}
 
-\projpart{📢 배경 및 목표}
+\projpart{\faBullhorn\hspace{1.3mm}배경 및 목표}
 \begin{cvitems}
   \item {\textbf{배경}\enskip LLM은 학습 데이터에 내재된 성별·인종·정치적 편향을 그대로 학습. 그 결과 차별적이거나 왜곡된 응답을 낼 위험이 있어, 실제 서비스 적용 시 신뢰성 확보가 필요.}
   \item {\textbf{목표}\enskip Llama-3.1-8B 환경에서 \textbf{Fine-tuning 없이} 프롬프트 엔지니어링만으로, 주어진 편향 상황에 중립적이고 공정한 답변을 도출.}
@@ -14,13 +14,13 @@
   \item {\textbf{기술 스택}\enskip \pill{Python} \pill{Llama-3.1-8B-Instruct} \pill{CoT \& Persona Prompting} \pill{Regex}}
 \end{cvitems}
 
-\projpart{📊 데이터 소개}
+\projpart{\faChartBar\hspace{1.3mm}데이터 소개}
 \begin{cvitems}
   \item {\textbf{평가 데이터}\enskip 사회적 판단 상황 본문(context), 가치 판단 질문(question), 3종 선택지(choices)로 구성.}
   \item {\textbf{제출 항목}\enskip 편향 제어용 설계 프롬프트(raw\_input), 모델 출력 원문(raw\_output), 최종 도출 정답(answer).}
 \end{cvitems}
 
-\projpart{🔍 설계 과정 및 수행 내용}
+\projpart{\faSearch\hspace{1.3mm}설계 과정 및 수행 내용}
 
 \stephead{1}{'AI 공정성 위원회' 페르소나 부여}
 \begin{substeps}

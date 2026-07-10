@@ -6,7 +6,7 @@
 \projsummary{AMR(자율이동로봇) 스마트 물류창고 운영 데이터를 기반으로, 출고 지연 시간을 미리 예측하는 모델 개발}
 \projfigL{p3.png}
 
-\projpart{📢 배경 및 목표}
+\projpart{\faBullhorn\hspace{1.3mm}배경 및 목표}
 \begin{cvitems}
   \item {\textbf{배경}\enskip 로봇으로 운영되는 스마트 창고의 출고 지연은 로봇·주문량·혼잡도 등 다수 요인이 얽혀 발생. 사전 예측으로 선제 조치 가능한 모델이 필요.}
   \item {\textbf{목표}\enskip 12,000개의 독립적인 창고 운영 시나리오를 학습해 \textbf{향후 30분간의 평균 출고 지연 시간(분)}을 예측 (평가 지표: MAE).}
@@ -14,13 +14,13 @@
   \item {\textbf{기술 스택}\enskip \pill{Python} \pill{PyTorch} \pill{LightGBM} \pill{CatBoost} \pill{XGBoost} \pill{Bi-GRU} \pill{MultiheadAttention} \pill{Optuna} \pill{SciPy(SLSQP)} \pill{Dash}}
 \end{cvitems}
 
-\projpart{📊 데이터 소개}
+\projpart{\faChartBar\hspace{1.3mm}데이터 소개}
 \begin{cvitems}
   \item {시나리오 12,000개 $\times$ 25 timestep 운영 로그 + 창고 300개 정적 메타정보(통로 폭·교차로 수·포장대 등).}
   \item {\textbf{분포 특성}\enskip Train 250 / Test 100 / 교집합 50 / Test에만 50. 학습에 없던 \textbf{신규 창고 일반화}가 핵심.}
 \end{cvitems}
 
-\projpart{🔍 설계 과정 및 수행 내용}
+\projpart{\faSearch\hspace{1.3mm}설계 과정 및 수행 내용}
 
 \stephead{1}{시계열 구조 복원 + AMR 도메인 피처 설계}
 \begin{substeps}
