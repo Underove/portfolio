@@ -6,21 +6,21 @@
 \projsummary{AMR(자율이동로봇) 스마트 물류창고 운영 데이터를 기반으로, 출고 지연 시간을 미리 예측하는 모델 개발}
 \projfigL{p3.png}
 
-\projpart{배경 및 목표}
+\projpart{📢 배경 및 목표}
 \begin{cvitems}
-  \item {\textbf{배경}\enskip 로봇으로 운영되는 스마트 창고의 출고 지연은 로봇·주문량·혼잡도 등 다수 요인이 얽혀 발생. 사전 예측으로 선제 조치가 가능한 모델이 필요.}
+  \item {\textbf{배경}\enskip 로봇으로 운영되는 스마트 창고의 출고 지연은 로봇·주문량·혼잡도 등 다수 요인이 얽혀 발생. 사전 예측으로 선제 조치 가능한 모델이 필요.}
   \item {\textbf{목표}\enskip 12,000개의 독립적인 창고 운영 시나리오를 학습해 \textbf{향후 30분간의 평균 출고 지연 시간(분)}을 예측 (평가 지표: MAE).}
   \item {\textbf{개발 기간}\enskip 2026.04.01 -- 2026.05.04}
   \item {\textbf{기술 스택}\enskip \pill{Python} \pill{PyTorch} \pill{LightGBM} \pill{CatBoost} \pill{XGBoost} \pill{Bi-GRU} \pill{MultiheadAttention} \pill{Optuna} \pill{SciPy(SLSQP)} \pill{Dash}}
 \end{cvitems}
 
-\projpart{데이터 소개}
+\projpart{📊 데이터 소개}
 \begin{cvitems}
   \item {시나리오 12,000개 $\times$ 25 timestep 운영 로그 + 창고 300개 정적 메타정보(통로 폭·교차로 수·포장대 등).}
   \item {\textbf{분포 특성}\enskip Train 250 / Test 100 / 교집합 50 / Test에만 50. 학습에 없던 \textbf{신규 창고 일반화}가 핵심.}
 \end{cvitems}
 
-\projpart{설계 과정 및 수행 내용}
+\projpart{🔍 설계 과정 및 수행 내용}
 
 \stephead{1}{시계열 구조 복원 + AMR 도메인 피처 설계}
 \begin{substeps}
@@ -31,7 +31,7 @@
 
 \stephead{2}{신규 창고 일반화: kNN 인코딩 + GroupKFold}
 \begin{substeps}
-  \item \textbf{kNN 인코딩} --- 정적 정보 13개와 구조 타입을 정규화해, 코사인 거리로 유사한 5개 창고의 평균·표준편차·최댓값을 피처화(자기 자신 제외로 유출 차단).
+  \item \textbf{kNN 인코딩} --- 창고 정적 정보 13개와 구조 타입을 정규화해, 코사인 거리로 유사한 5개 창고의 평균·표준편차·최댓값을 피처화(자기 자신 제외로 유출 차단).
   \item \textbf{GroupKFold(by layout\_id)} --- 같은 창고가 학습·검증에 동시 등장하지 않게 분할해 신규 창고만으로 검증.
 \end{substeps}
 
@@ -39,7 +39,7 @@
 \stephead{3}{다중 모델 앙상블 + SLSQP 가중치 최적화}
 \begin{substeps}
   \item 트리 모델만으로는 25개 시간 구간의 흐름을 학습하기 어려워 트리 3종과 시퀀스 2종을 함께 구성(XGBoost는 뒤 진단에서 노이즈로 판명되어 제외, 최종 4모델).
-  \item 트리 3종(LightGBM·CatBoost·XGBoost)은 Optuna로 GroupKFold 탐색, 비대칭 분포 보정을 위해 log1p 학습·expm1 복원.
+  \item 트리 3종(LightGBM·CatBoost·XGBoost)은 Optuna로 GroupKFold 탐색, 비대칭 분포 보정을 위해 log1p 학습 + expm1 복원.
   \item Bi-GRU는 (25, N) 시퀀스로 재구성해 LSTM 대비 파라미터를 절감, 신규 창고 일반화에 유리(LB 10.1669 $\to$ 10.0194 수직 상승).
   \item Bi-GRU + Multi-Head Attention은 4-head·잔차 연결·LayerNorm으로 먼 시점 관계를 포착.
   \item SLSQP로 OOF 최소화 가중치를 자동 탐색(합=1).
