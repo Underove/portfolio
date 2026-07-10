@@ -6,7 +6,7 @@
 \projsummary{CLIP 기반 이미지 의미 분석으로 입력을 5단계 자동 심사하고, 단일 이미지에서 3D를 복원하는 비전--언어 파이프라인}
 \projfigL[4.4cm]{p4.png}
 
-\projpart{배경 및 목표}
+\projpart{📖 배경 및 목표}
 \begin{cvitems}
   \item {\textbf{배경}\enskip 최근 '개인 아카이빙 문화'가 확산되고 있음. 그러나 기존 2D 중심 기록으로는 물체의 입체적 요소를 온전히 보존하기 어렵다는 한계가 존재.}
   \item {\textbf{목표}\enskip 단일 2D 이미지 기반 3D 재구성으로 물체의 입체적 특성을 보존·공유하는, 웹 기반 디지털 아카이빙 플랫폼을 개발.}
@@ -15,16 +15,16 @@
   \item {\textbf{사용 GPU}\enskip NVIDIA RTX 5090 (Vast.ai 대여)}
 \end{cvitems}
 
-\projpart{파이프라인}
+\projpart{🛠️ 파이프라인}
 \projfigL[4.4cm]{p4pipe.png}
 
-\projpart{설계 과정 및 수행 내용}
+\projpart{🔍 설계 과정 및 수행 내용}
 
 \stephead{1}{CLIP 기반 Semantic 전처리 시스템 설계}
 \begin{substeps}
-  \item 3D 재구성 모델은 재질(투명·반사)·구도(잘림)에 따라 품질 격차가 크고, 부적절한 입력은 리소스를 낭비.
+  \item 3D 재구성 모델은 재질(투명·반사)·구도(잘림)에 따라 품질 격차가 크고, 부적절한 입력은 서버 리소스를 낭비.
   \item CLIP(ViT-B/32) Zero-shot 필터링으로 3D 복원 적합성을 5단계로 분류('논문 피어 리뷰' 프로세스 참고) --- Early Reject(식별 불가·가려짐·손상), Reject(인물/풍경 등 Non-Object), Major·Minor Revision(재질 결함·배경 복잡), Accept(깔끔한 단일 객체).
-  \item AI 오판을 대비해 사용자가 최종 생성을 결정하는 'Human Override' 인터페이스로 무결성을 확보.
+  \item Human-in-the-loop --- AI 오판을 대비해 사용자가 최종 생성을 결정하는 'Human Override' 인터페이스로 무결성을 확보.
 \end{substeps}
 
 \stephead{2}{Dual-Track 추론 파이프라인 (사용자 요구 맞춤형)}
@@ -36,7 +36,7 @@
 
 \stephead{3}{Three.js 기반 인터랙티브 웹 갤러리}
 \begin{substeps}
-  \item 별도 설치 없이 브라우저에서 3D 모델을 즉시 감상하도록 Three.js·WebGL 환경을 구축.
+  \item 별도 설치 없이 웹 브라우저에서 3D 모델을 즉시 감상하도록 Three.js·WebGL 환경을 구축.
   \item 360도 회전·확대 등 실시간 상호작용을 구현.
   \item 개별 결과물을 관리·공유하는 '사용자 커스텀 피드' 디지털 큐레이션 기능도 설계.
 \end{substeps}
