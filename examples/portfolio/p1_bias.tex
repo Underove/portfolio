@@ -6,7 +6,7 @@
 \projsummary{컨텍스트 접지(Grounding)를 활용한 2단계 CoT 기반 LLM 편향 완화 및 공정성 제어}
 \projfig{p1.png}
 
-\projpart{배경 및 목표}
+\projpart{📢 배경 및 목표}
 \begin{cvitems}
   \item {\textbf{배경}\enskip LLM은 학습 데이터에 내재된 성별·인종·정치적 편향을 그대로 학습함. 그 결과 차별적이거나 왜곡된 응답을 낼 위험이 있어, 실제 서비스 적용 시 신뢰성 확보가 필요.}
   \item {\textbf{목표}\enskip Llama-3.1-8B 환경에서 \textbf{파인튜닝 없이} 프롬프트 엔지니어링만으로, 주어진 편향 상황에 중립적이고 공정한 답변을 도출.}
@@ -14,22 +14,22 @@
   \item {\textbf{기술 스택}\enskip \pill{Python} \pill{Llama-3.1-8B-Instruct} \pill{CoT \& Persona Prompting} \pill{Regex}}
 \end{cvitems}
 
-\projpart{데이터 소개}
+\projpart{📊 데이터 소개}
 \begin{cvitems}
   \item {\textbf{평가 데이터}\enskip 사회적 판단 상황 본문(context), 가치 판단 질문(question), 3종 선택지(choices)로 구성.}
   \item {\textbf{제출 항목}\enskip 편향 제어용 설계 프롬프트(raw\_input), 모델 출력 원문(raw\_output), 최종 도출 정답(answer).}
 \end{cvitems}
 
-\projpart{설계 과정 및 수행 내용}
+\projpart{🔍 설계 과정 및 수행 내용}
 
 \stephead{1}{'AI 공정성 위원회' 페르소나 부여}
 \begin{substeps}
-  \item 8B 모델은 사전 학습된 편견(성별·인종·외모·나이 등)에 쉽게 의존하는 문제가 있음.
+  \item Llama(8B) 모델은 사전 학습된 편견(성별·인종·외모·나이 등)에 쉽게 의존하는 문제가 있음.
   \item 이를 막기 위해 중립적인 '공정성 위원회 AI' 페르소나를 부여.
   \item 오직 지문에 명시된 팩트(Fact)만을 근거로 삼는 컨텍스트 접지(Grounding) 원칙을 수립.
 \end{substeps}
 
-\stephead{2}{2단계 CoT(생각--답변) 오케스트레이션}
+\stephead{2}{2단계 CoT(생각--답변) 오케스트레이션 설계}
 \begin{substeps}
   \item 결론 도출 전 스스로 논리 검증을 거치게 해 편향된 직관을 억제.
   \item \textbf{[생각]} 단계: 판단 근거를 먼저 작성하게 유도하고, Few-shot으로 '지문 근거만 인용'하는 추론 패턴을 학습.
