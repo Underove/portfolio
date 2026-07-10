@@ -1,0 +1,39 @@
+%-------------------------------------------------------------------------------
+% 10. 2023 DACON 뉴스 기사 레이블 복구 해커톤 (이미지 없음)
+%-------------------------------------------------------------------------------
+\cvsection{10. 2023 DACON 뉴스 기사 레이블 복구 해커톤}
+
+\projsummary{라벨이 유실된 대규모 뉴스 텍스트의 6개 범주 비지도 분류 파이프라인}
+
+\projpart{\faBullhorn\hspace{1.3mm}배경 및 목표}
+\begin{cvitems}
+  \item {\textbf{배경}\enskip 카테고리 정보가 유실된 약 6만 건의 뉴스 기사(CSV)에서 6개 범주를 복구해야 함.}
+  \item {\textbf{목표}\enskip 라벨 없는 데이터 환경에서 Macro F1 Score를 극대화하는 분류 파이프라인 구현.}
+  \item {\textbf{개발 기간}\enskip 2023.09.22 -- 2023.09.25}
+  \item {\textbf{기술 스택}\enskip \pill{Python} \pill{Scikit-learn} \pill{HuggingFace} \pill{SBERT} \pill{BART (Zero-shot)} \pill{NLTK}}
+\end{cvitems}
+
+\projpart{\faChartBar\hspace{1.3mm}데이터 소개}
+\begin{cvitems}
+  \item {약 6만 건 뉴스 기사, 6개 범주(Business / Entertainment / Politics / Sports / Tech / World). 평가지표 Macro F1 Score.}
+\end{cvitems}
+
+\projpart{\faMagnifyingGlass\hspace{1.3mm}설계 과정 및 수행 내용}
+
+\stephead{1}{다단계 텍스트 정규화 파이프라인}
+\begin{substeps}
+  \item 뉴스 텍스트에 섞인 특수문자·불용어가 임베딩 의미 추출을 저해.
+  \item 정규표현식·NLTK로 불용어를 제거하고 WordNetLemmatizer·PorterStemmer로 원형·어간을 추출.
+\end{substeps}
+
+\stephead{2}{Sentence-BERT 임베딩 + K-means 군집화}
+\begin{substeps}
+  \item 단순 키워드 매칭은 중의성·문맥을 반영하지 못함.
+  \item SBERT로 텍스트를 고차원 밀집 벡터로 변환한 뒤 K-means로 6개 그룹을 형성해 문맥 기반 비지도 분류 체계를 구현.
+\end{substeps}
+
+\stephead{3}{BART Zero-shot으로 군집-범주 매칭}
+\begin{substeps}
+  \item 각 군집이 어떤 범주에 해당하는지 정의할 학습 라벨이 부재.
+  \item BART Zero-shot Classification으로 추가 학습 없이 6개 범주 중 최적 매칭을 추론.
+\end{substeps}

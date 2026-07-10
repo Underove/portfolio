@@ -1,0 +1,49 @@
+%-------------------------------------------------------------------------------
+% 7. 2025 제2회 MixUP AI Datathon — 진동/음향 데이터 회귀 예측 (Track 1 출제위원)
+%-------------------------------------------------------------------------------
+\cvsection{7. 2025 제2회 MixUP AI Datathon : 진동/음향 데이터 회귀 예측}
+
+\projsummary{산업 현장 비정형 데이터를 활용한 '누수 수준 예측' 회귀 과제 설계 및 대회 운영 --- Track 1 총괄 운영·출제위원}
+\projfigL[5.4cm]{p7.png}
+
+\projpart{\faBullhorn\hspace{1.3mm}배경 및 목표}
+\begin{cvitems}
+  \item {\textbf{배경}\enskip 4개 연합 동아리(ToBig's·BITAmin·Prometheus·KUBIG)가 공동 주최한 제2회 연합 데이터톤.}
+  \item {\textbf{목표}\enskip NIA 제공 데이터로 누수 수준을 예측하는 회귀(Regression) 과제를 기획하고, 참가자가 공정하게 경쟁할 Kaggle 기반 평가 환경을 구축.}
+  \item {\textbf{운영 기간}\enskip 2025.11.22 -- 2025.11.23 (준비 기간 약 3개월)}
+  \item {\textbf{기술 스택}\enskip \pill{Python} \pill{Pandas} \pill{Scikit-learn} \pill{Kaggle API} \pill{Metric Optimization}}
+\end{cvitems}
+
+\projpart{\faChartBar\hspace{1.3mm}데이터 소개}
+\begin{cvitems}
+  \item {\textbf{데이터셋}\enskip NIA(한국지능정보사회진흥원) 제공 상수관로 고해상도 진동/음향 센서 로그.}
+  \item {\textbf{누수 유형(leaktype)}\enskip in(옥내)·out(옥외)·other(기타)·noise(노이즈)·normal(정상) 5종.}
+  \item {\textbf{누수 수준(llevel)}\enskip 누수 정도를 나타내는 연속형 타겟 변수.}
+  \item {\textbf{주파수 피처}\enskip 음향·진동 신호를 푸리에 변환한 513차원(0HZ--5120HZ) 대역별 강도.}
+\end{cvitems}
+
+\projpart{\faMagnifyingGlass\hspace{1.3mm}설계 과정 및 수행 내용}
+
+\stephead{1}{변별력 확보를 위한 회귀 과제 설계}
+\begin{substeps}
+  \item 단순 누수 유형 분류는 특정 관로 고유 패턴을 암기하는 데이터 누수 리스크에 취약.
+  \item 과제를 분류가 아닌 누수 정도(llevel) 정밀 예측 회귀로 설계해 변별력 확보.
+  \item 유형별 타겟 분포 왜곡을 막기 위해 50\% 층화 추출(Stratified Sampling)로 학습셋 구축.
+\end{substeps}
+
+\stephead{2}{데이터 무결성 및 부정행위(Leakage) 차단}
+\begin{substeps}
+  \item 동일 장소 신호 혼입 시 모델이 물리 특징이 아닌 장소 패턴을 암기하고, 식별자(ID)가 정답 힌트가 될 수 있음.
+  \item 정답 유추 가능한 장소 식별자(sid·site)와 누수율(lrate)을 제거.
+  \item 계절성 피처용 날짜(ldate)는 보존하고 중복 정보인 MAX 관련 컬럼은 사전 정제해 배포.
+  \item 관로 ID별 데이터 분리 로직으로 미학습 장소의 누수를 예측하게 해 평가 신뢰도 확보.
+\end{substeps}
+
+\stephead{3}{평가 지표 최적화 및 강건한 학습 환경}
+\begin{substeps}
+  \item 핵심 변수(llevel·ldate) 제외 피처에 5\% 마스킹을 적용해 주파수 전체 상관관계를 학습하도록 유도.
+  \item 전체 평가 데이터를 Public(30\%) / Private(70\%)로 나누고 최종 순위는 Private로만 결정.
+  \item 초기 MSLE의 낮은 해상도를 확인하고, 모델 설명력을 직관적으로 반영하는 $R^2$ Score(0.92)로 지표를 도입해 변별력 확보.
+\end{substeps}
+
+\achievement{대회 이슈 \textbf{0건 달성} --- 3개월간 과제 설계·평가 환경을 총괄 운영.}

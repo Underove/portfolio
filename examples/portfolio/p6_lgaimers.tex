@@ -1,0 +1,59 @@
+%-------------------------------------------------------------------------------
+% 6. LG Aimers 7기 — 식음업장 메뉴 수요 예측 AI 모델 (Phase 3, 5위)
+%-------------------------------------------------------------------------------
+\cvsection{6. LG Aimers 7기 : 식음업장 메뉴 수요 예측 AI 모델 (Phase 3)}
+
+\projsummary{시계열 데이터 분석을 통한 식음업장 1주일 단위 메뉴별 판매량 예측}
+\projfigL[5.6cm]{p6.png}
+
+\projpart{\faBullhorn\hspace{1.3mm}배경 및 목표}
+\begin{cvitems}
+  \item {\textbf{배경}\enskip 리조트 식음업장은 투숙객 수뿐 아니라 날씨·주변 관광 시설(스키장·화담숲) 이용객 등 다양한 요인으로 수요가 크게 변동. 운영 효율화·재고 관리를 위한 데이터 기반 수요 예측이 필수.}
+  \item {\textbf{목표}\enskip 리조트 메뉴별 판매 데이터(최대 28일치)로 향후 1주일간 각 메뉴의 예상 판매량을 예측하는 AI 모델을 개발.}
+  \item {\textbf{개발 기간}\enskip 2025.08 -- 2025.09 (Phase 3: 2025.09.06--07)}
+  \item {\textbf{기술 스택}\enskip \pill{Python} \pill{Pandas} \pill{CNN} \pill{BiLSTM} \pill{Scikit-learn} \pill{SMAPE}}
+\end{cvitems}
+
+\projpart{\faChartBar\hspace{1.3mm}데이터 소개}
+\begin{cvitems}
+  \item {\textbf{매출 데이터}\enskip 8개 영업장 내 167개 메뉴별 매출 수량(2023--2024).}
+  \item {\textbf{리조트 메타}\enskip 18종 객실 타입별 판매 실적, 업장별 단체 예약 건수, 주변 시설(화담숲·스키장) 방문객 수.}
+  \item {\textbf{외부 환경}\enskip 지역 기온·강수량 등 기상 정보 연동.}
+\end{cvitems}
+
+\projpart{\faMagnifyingGlass\hspace{1.3mm}설계 과정 및 수행 내용}
+
+\stephead{1}{데이터 무결성 확보를 위한 전처리}
+\begin{substeps}
+  \item 과대값(Outlier)과 단체 주문 스파이크(Spike)가 모델 학습을 왜곡.
+  \item 99\% 분위수 Winsorizing으로 이상치를 보정하고, 단체 메뉴의 0값을 메뉴별 중앙값으로 대치해 학습 안정성 확보.
+\end{substeps}
+
+\stephead{2}{도메인 특화 피처 엔지니어링}
+\begin{substeps}
+  \item \textbf{시계열 피처} --- 요일/월 주기성(sin/cos), 7일 이동평균(ma7).
+  \item \textbf{현장 운영 플래그} --- 화담숲·스키장 폐장기, 단풍/스키 시즌 등 운영 기간별 노이즈 제어.
+  \item \textbf{소비 패턴} --- 징검다리 연휴, 신규/대체 메뉴 출시로 인한 기존 메뉴 자기잠식 효과 반영.
+  \item \textbf{신규 메뉴 대응} --- 각 메뉴 첫 판매 시점 기준 판매 가능 여부·출시 경과일 피처 생성.
+\end{substeps}
+
+\stephead{3}{1D CNN + BiLSTM 하이브리드 아키텍처}
+\begin{substeps}
+  \item 요일별 반복 '단기 패턴'과 특수 시즌 '장기 맥락'이 공존 --- 둘을 동시에 포착하는 구조 필요.
+  \item 식당·메뉴 정보를 정적 임베딩으로 벡터화 후 시간축 결합, 단일 모델로 모든 메뉴 예측.
+  \item 1D CNN으로 단기 변동을, BiLSTM으로 양방향 시계열 맥락을 파악.
+\end{substeps}
+
+\stephead{4}{커스텀 복합 손실 함수 + 2단계 학습}
+\begin{substeps}
+  \item MSE는 판매량이 큰 메뉴 오차에 편향돼 소량 메뉴 예측력이 저하.
+  \item MSE로 기본 패턴을 Warm-up한 뒤 SMAPE/NMAE/NRMSE 결합 '복합 손실'로 파인튜닝 --- 성능 약 22\% 개선.
+\end{substeps}
+
+\stephead{5}{24-Fold 롤링 교차 검증 및 후처리}
+\begin{substeps}
+  \item 특정 시점 편향·과적합을 줄이고 시간적 강건성을 확보하기 위해 7일 슬라이딩 24-Fold Rolling CV + 앙상블로 일반화.
+  \item 실수 출력값을 판매 수량 특성에 맞춰 정수형으로 반올림하는 후처리 적용.
+\end{substeps}
+
+\achievement{최종 \textbf{5위} (본선 진출).}
