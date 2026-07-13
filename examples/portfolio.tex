@@ -82,6 +82,18 @@
   \endgroup
   \vspace{0.1mm}%
 }
+% 2단계 하위 목록 — 들여쓰기 축소·불릿 한 단계 작고 연하게·목록 끝 여백 제거
+\newenvironment{substeps2}{%
+  \vspace{-0.7mm}%
+  \begingroup
+  \fontsize{9pt}{1.28em}\bodyfontlight\upshape\color{text}%
+  \begin{itemize}[leftmargin=4.6mm, itemsep=0.22mm, topsep=0pt, partopsep=0pt, parsep=0pt,
+                  label={\textcolor{awesome!55}{\scriptsize\textbullet}}]%
+}{%
+  \end{itemize}%
+  \endgroup
+  \vspace{-1.0mm}%
+}
 % 성과 — 한 줄이므로 라벨 옆에 인라인(줄바꿈 없이), 본문과 같은 9pt
 \newcommand{\achievement}[1]{%
   \par\vspace{1.3mm}%

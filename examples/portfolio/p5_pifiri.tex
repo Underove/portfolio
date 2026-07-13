@@ -34,20 +34,20 @@
 \begin{substeps}
   \item PiCar-4WD 키트를 단순 if-else 조건문으로 제어하면, 모터 출력 불균형 때문에 주행이 좌·우로 흔들리는 헌팅(Hunting) 현상과 경로 이탈이 발생 --- 상용 키트의 하드웨어 한계를 제어 로직으로 보완해야 함.
   \item GrayScale 센서가 읽은 바닥 라인의 오차($e$)를 수치화하고, \textbf{PID 제어}로 좌·우 모터 출력을 실시간 미세 조정해 이탈 없는 라인 트레이싱 환경을 구축.
-  \begin{substeps}
+  \begin{substeps2}
     \item \textbf{I(적분) 제어} --- 누적 오차를 반영해, 모터 출력 저하로 한쪽으로 쏠리는 주행 편향을 보정.
     \item \textbf{D(미분) 제어} --- 오차의 변화율을 감지해, 조향 시 발생하는 떨림을 억제하고 부드러운 주행을 구현.
-  \end{substeps}
+  \end{substeps2}
 \end{substeps}
 
 \stephead{2}{분산 컴퓨팅 아키텍처 설계 (엣지 연산 한계 극복)}
 \begin{substeps}
   \item 엣지 환경(라즈베리파이)에서 주행 제어와 고부하 AI 추론을 동시에 수행하면 연산 지연으로 \textbf{1 FPS}까지 떨어져, 실시간 구동 자체가 불가능.
   \item 라즈베리파이와 로컬 PC를 동일한 모바일 핫스팟(WLAN)에 연결해 하나의 서브넷을 구성하고, 역할을 분리.
-  \begin{substeps}
+  \begin{substeps2}
     \item \textbf{라즈베리파이} --- Flask API 서버를 올려 카메라 영상과 센서 데이터를 스트리밍하는 역할만 담당.
     \item \textbf{로컬 PC} --- 전송받은 프레임에 EfficientDet-Lite1 추론을 수행하고 결과를 회신.
-  \end{substeps}
+  \end{substeps2}
   \item 이 분산 구조로 처리량을 \textbf{약 10 FPS}까지 끌어올려, 주행과 탐지가 동시에 도는 실시간성을 확보.
 \end{substeps}
 
@@ -55,11 +55,11 @@
 \begin{substeps}
   \item 기존 경보 시스템은 경고음만 울릴 뿐, 화재의 발생 위치나 규모는 사람이 직접 판단해야 함 --- 탐지 결과를 사람이 읽을 수 있는 상황 보고로 바꿀 필요.
   \item 로봇이 탐지한 화재 메타데이터(감지 시간·객체 크기·예측 확률·위치)를 LangChain PromptTemplate으로 동적 주입해, Solar Pro2 기반 분석 결과를 생성.
-  \begin{substeps}
+  \begin{substeps2}
     \item \textbf{4단계 위험도 경고} --- 예측 확률과 객체 크기를 종합해 [관심--주의--경계--심각]으로 분류한 자연어 메시지를 생성.
     \item \textbf{순찰 보고서 생성} --- 순찰 시작·종료 시간, 구간별 통과 로그, 화재 이벤트를 사실에 근거해 작성. \texttt{temperature=0}과 다중 제약 시스템 프롬프트로 환각을 차단하고, 같은 입력에 같은 결과를 내는 재현성을 확보해 일관된 평가가 가능한 응답 체계를 구축.
     \item \textbf{실시간 Q\&A} --- ``현재 로봇의 위치는 어디야?''와 같은 질문에, 수집된 순찰 데이터를 근거로 실시간 답변.
-  \end{substeps}
+  \end{substeps2}
 \end{substeps}
 
 \stephead{4}{Streamlit 관제 대시보드 구축}
