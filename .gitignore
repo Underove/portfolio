@@ -24,3 +24,7 @@ examples/*.pdf
 ## Mac OS X metadata files:
 *.DS_Store
 
+
+## 렌더 확인용 임시 산출물 (루트에 생기는 pdftoppm 출력 등)
+/*.png
+!/.github/**
