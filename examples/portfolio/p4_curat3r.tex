@@ -1,10 +1,12 @@
 %-------------------------------------------------------------------------------
-% 4. ToBig's 21st Conference — Curat3R: 나만의 3D 박물관 만들기
+% 1. ToBig's 21st Conference — Curat3R: 단일 이미지 3D 복원 아카이빙 플랫폼
+%   p.1 = 배경·목표 + 메인 사진 + 파이프라인 (그림은 폭 상한까지 확대)
+%   p.2 = 설계 과정 및 수행 내용
 %-------------------------------------------------------------------------------
 \cvsection{1. ToBig's 21st Conference : Curat3R — 단일 이미지 3D 복원 아카이빙 플랫폼}
 
 \projsummary{CLIP 기반 이미지 의미 분석으로 입력을 5단계 자동 심사하고, 단일 이미지에서 3D를 복원하는 비전--언어 파이프라인}
-\projfigL[4.7cm]{p4.jpg}
+\projfigL[7.6cm]{p4.jpg}
 
 \projpart{\faBookOpen\hspace{1.3mm}배경 및 목표}
 \begin{cvitems}
@@ -16,27 +18,36 @@
 \end{cvitems}
 
 \projpart{\faScrewdriverWrench\hspace{1.3mm}파이프라인}
-\projfigL[4.7cm]{p4pipe.png}
+\projfigL[7.8cm]{p4pipe.png}
 
+\newpage
 \projpart{\faMagnifyingGlass\hspace{1.3mm}설계 과정 및 수행 내용}
 
 \stephead{1}{CLIP 기반 Semantic 전처리 시스템 설계}
 \begin{substeps}
-  \item 3D 재구성 모델은 재질(투명·반사)·구도(잘림)에 따라 품질 격차가 크고, 부적절한 입력은 서버 리소스를 낭비.
-  \item CLIP(ViT-B/32) Zero-shot 필터링으로 3D 복원 적합성을 5단계로 분류('논문 피어 리뷰' 프로세스 참고) --- Early Reject(식별 불가·가려짐·손상), Reject(인물/풍경 등 Non-Object), Major·Minor Revision(재질 결함·배경 복잡), Accept(깔끔한 단일 객체).
-  \item Human-in-the-loop --- AI 오판을 대비해 사용자가 최종 생성을 결정하는 'Human Override' 인터페이스로 무결성을 확보.
+  \item 3D 재구성 모델은 객체의 재질(투명·반사)과 구도(잘림)에 따라 생성 품질 격차가 크고, 부적절한 입력이 들어오면 GPU 서버 리소스가 그대로 낭비됨 --- 생성 이전 단계에서 입력을 걸러내는 관문이 필요.
+  \item \textbf{Zero-shot 필터링} --- CLIP(ViT-B/32)으로 입력 이미지의 의미론적 특징을 분석해, 별도 학습 없이 3D 복원 적합성을 5단계로 자동 분류.
+  \item \textbf{5단계 심사 기준} --- '논문 피어 리뷰' 프로세스를 참고해 가이드라인을 구축.
+  \begin{substeps}
+    \item \textbf{Early Reject} --- 객체 식별 불가, 가려짐, 데이터 손상.
+    \item \textbf{Reject} --- Non-Object(인물·풍경 등) 및 부적합 카테고리.
+    \item \textbf{Major\,/\,Minor Revision} --- 재질 결함(투명·반사) 또는 배경 복잡.
+    \item \textbf{Accept} --- 깔끔한 배경의 단일 객체 이미지.
+  \end{substeps}
+  \item \textbf{Human-in-the-loop} --- AI의 오판 가능성을 고려해, 사용자가 최종 생성 여부를 직접 결정하는 'Human Override' 인터페이스를 구축 --- 자동 판정의 오류가 데이터 무결성을 해치지 않도록 함.
 \end{substeps}
 
-\stephead{2}{Dual-Track 추론 파이프라인 (사용자 요구 맞춤형)}
+\stephead{2}{Dual-Track 추론 파이프라인 (사용자 요구 맞춤형 설계)}
 \begin{substeps}
-  \item 실시간 서비스의 '속도'와 결과물 '정밀도' 사이 Trade-off를 해결.
-  \item \textbf{Fast Track(SPAR3D)} --- 약 0.7초 초고속 추론으로 즉각 확인이 필요한 체험형 사용자에 대응.
-  \item \textbf{Quality Track(TRELLIS.2)} --- 정밀 복원이 필요한 아카이빙 목적의 고해상도 생성을 담당.
+  \item 실시간 서비스에 필요한 '생성 속도'와 결과물 '정밀도'가 서로 상충 --- 단일 모델로는 두 사용자층을 모두 만족시킬 수 없음.
+  \item \textbf{Fast Track (SPAR3D)} --- 약 0.7초의 초고속 추론 환경을 구축해, 즉각적인 3D 결과 확인이 필요한 체험형 사용자에 대응.
+  \item \textbf{Quality Track (TRELLIS.2)} --- 고해상도 생성 파이프라인을 연동해, 정밀한 복원이 필요한 아카이빙 목적 사용자에 대응.
+  \item CLIP 심사 결과와 사용자 선택을 함께 받아 두 트랙 중 하나로 분기하는 Model Selection 단계를 두어, 리소스와 품질을 요구에 맞게 배분.
 \end{substeps}
 
 \stephead{3}{Three.js 기반 인터랙티브 웹 갤러리}
 \begin{substeps}
-  \item 별도 설치 없이 웹 브라우저에서 3D 모델을 즉시 감상하도록 Three.js·WebGL 환경을 구축.
-  \item 360도 회전·확대 등 실시간 상호작용을 구현.
-  \item 개별 결과물을 관리·공유하는 '사용자 커스텀 피드' 디지털 큐레이션 기능도 설계.
+  \item 별도 뷰어 설치가 필요하면 접근성이 떨어져, 생성한 3D 결과를 즉시 확인·공유하기 어려움.
+  \item \textbf{실시간 인터랙션} --- Three.js·WebGL 환경을 구축해, 설치 없이 브라우저에서 360도 회전·확대 등 상호작용을 구현.
+  \item \textbf{디지털 큐레이션} --- 개별 결과물을 관리하고 타인과 공유하는 '사용자 커스텀 피드'를 설계해, 생성물이 축적되는 개인 전시 공간을 제공.
 \end{substeps}
