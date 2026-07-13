@@ -69,6 +69,7 @@
 % 설계 단계 — 노션식: [배지][굵은 제목] 헤더 줄, 그 아래 서브 불릿(줄마다 한 포인트)
 \newlength{\substepsep}\setlength{\substepsep}{0.22mm}   % 불릿 사이 세로 간격
 \newlength{\stepgap}\setlength{\stepgap}{0.9mm}          % 설계 단계 블록 사이 간격
+\newlength{\subtwosep}\setlength{\subtwosep}{1.7mm}       % 2단계(자식) 불릿 사이 세로 간격
 \newcommand{\stephead}[2]{%
   \par\vspace{\stepgap}%
   \noindent{\cn{#1}}\hspace{1.7mm}{\fontsize{9.5pt}{1em}\bodyfont\bfseries\color{darktext}#2}\par
@@ -86,15 +87,15 @@
 }
 % 2단계 하위 목록 — 들여쓰기 축소·불릿 한 단계 작고 연하게
 \newenvironment{substeps2}{%
-  \vspace{0.35\substepsep}%
+  \vspace{1.1mm}%
   \begingroup
-  \fontsize{9pt}{1.28em}\bodyfontlight\upshape\color{text}%
-  \begin{itemize}[leftmargin=4.6mm, itemsep=\substepsep, topsep=0pt, partopsep=0pt, parsep=0pt,
+  \fontsize{9pt}{1.30em}\bodyfontlight\upshape\color{text}%
+  \begin{itemize}[leftmargin=4.6mm, itemsep=\subtwosep, topsep=0pt, partopsep=0pt, parsep=0pt,
                   label={\textcolor{awesome!55}{\scriptsize\textbullet}}]%
 }{%
   \end{itemize}%
   \endgroup
-  \vspace{-0.55mm}%
+  \vspace{0.6mm}%
 }
 % 성과 — 한 줄이므로 라벨 옆에 인라인(줄바꿈 없이), 본문과 같은 9pt
 \newcommand{\achievement}[1]{%
