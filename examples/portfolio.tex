@@ -58,7 +58,7 @@
   \par\vspace{0.3mm}%
   \noindent{\color{awesome}\rule[-0.3mm]{2pt}{2.9mm}}\enskip
   {\fontsize{9pt}{1.25em}\bodyfontlight\upshape\color{darktext}#1}\par
-  \vspace{0.4mm}%
+  \vspace{1.6mm}%
 }
 % 소제목(배경·데이터·설계 등) — 사각 마커 + 10.5pt 굵은 강조색 + 전폭 얇은 구분선(그리드 정렬)
 \newcommand{\projpart}[1]{%
@@ -101,9 +101,9 @@
 \newcommand{\projdivider}[2]{%
   \par\noindent{\fontsize{12pt}{1em}\bodyfont\bfseries\color{awesome}#1}%
   \hspace{2.6mm}{\fontsize{8.5pt}{1em}\bodyfontlight\color{graytext}#2}\par
-  \vspace{0.4mm}%
+  \vspace{1.6mm}%
   {\color{awesome!30}\hrule height 0.7pt}%   % \rule 은 문단 행간이 붙어 8mm 벌어짐 → \hrule
-  \vspace{-2.4mm}%                            % \cvsection 의 acvSectionTopSkip(3mm) 상쇄
+  \vspace{-0.8mm}%                            % \cvsection 의 acvSectionTopSkip(3mm) 상쇄
 }
 % 성과 — 한 줄이므로 라벨 옆에 인라인(줄바꿈 없이), 본문과 같은 9pt
 \newcommand{\achievement}[1]{%
@@ -122,12 +122,12 @@
 \newcommand{\projfigXL}[2][8.8cm]{%
   \par\vspace{0.9mm}%
   {\centering\includegraphics[width=\linewidth, height=#1, keepaspectratio]{#2}\par}%
-  \vspace{0.4mm}%
+  \vspace{1.6mm}%
 }
 \newcommand{\projfigL}[2][6.5cm]{%
   \par\vspace{0.9mm}%
   {\centering\includegraphics[width=0.86\linewidth, height=#1, keepaspectratio]{#2}\par}%
-  \vspace{0.4mm}%
+  \vspace{1.6mm}%
 }
 
 %-------------------------------------------------------------------------------
