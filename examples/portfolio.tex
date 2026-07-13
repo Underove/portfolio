@@ -110,6 +110,12 @@
   \vspace{0.3mm}%
 }
 % 큰 이미지 (2페이지 프로젝트용) — 넓은 폭 + 큰 높이 상한으로 잘 보이게
+% 전폭 그림 — 가로로 넓고 글씨가 작은 대시보드·다이어그램용
+\newcommand{\projfigXL}[2][8.8cm]{%
+  \par\vspace{0.9mm}%
+  {\centering\includegraphics[width=\linewidth, height=#1, keepaspectratio]{#2}\par}%
+  \vspace{0.4mm}%
+}
 \newcommand{\projfigL}[2][6.5cm]{%
   \par\vspace{0.9mm}%
   {\centering\includegraphics[width=0.86\linewidth, height=#1, keepaspectratio]{#2}\par}%
