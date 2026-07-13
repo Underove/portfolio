@@ -99,13 +99,11 @@
 }
 % 프로젝트 구분 표지 — "여기까지 중점 / 여기부터 그 외" 를 한 줄로 표시
 \newcommand{\projdivider}[2]{%
-  \par\noindent{\color{awesome!30}\rule{\linewidth}{0.7pt}}\par
-  \vspace{1.6mm}%
-  \noindent{\fontsize{12pt}{1em}\bodyfont\bfseries\color{awesome}#1}%
+  \par\noindent{\fontsize{12pt}{1em}\bodyfont\bfseries\color{awesome}#1}%
   \hspace{2.6mm}{\fontsize{8.5pt}{1em}\bodyfontlight\color{graytext}#2}\par
-  \vspace{1.6mm}%
+  \vspace{1.0mm}%
   \noindent{\color{awesome!30}\rule{\linewidth}{0.7pt}}\par
-  \vspace{4.5mm}%
+  \vspace{3.2mm}%
 }
 % 성과 — 한 줄이므로 라벨 옆에 인라인(줄바꿈 없이), 본문과 같은 9pt
 \newcommand{\achievement}[1]{%
@@ -189,7 +187,7 @@
 \input{portfolio/p2_steel.tex}            % 2025 MixUP 철강 (5위) — 클래스 불균형 대응
 % ---- 여기부터 = 그 외 프로젝트(폭) ----
 \newpage
-\projdivider{그 외 프로젝트}{Other Projects\enskip\textbar\enskip 시계열 예측 · LLM · 임베디드 제어}
+\projdivider{Other Projects}{시계열 예측 · LLM · 임베디드 제어}
 \input{portfolio/p3_warehouse.tex}        % 2026 DACON 스마트 창고 (상위 11%) — 시계열 예측
 \newpage
 \input{portfolio/p6_lgaimers.tex}         % LG Aimers 메뉴 수요 예측 (전국 5위)
