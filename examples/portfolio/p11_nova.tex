@@ -15,7 +15,7 @@
   \item {\textbf{배경}\enskip 출처 불명의 리포트·지라시가 메신저로 유통되지만, 개인 투자자가 이를 공식 자료와 대조해 검증할 수단이 마땅치 않음.}
   \item {\textbf{목표}\enskip 공식 공시(DART)·실시간 시세와 교차검증하는 팩트체크를 중심으로, 시세·차트·포트폴리오 관리까지 갖춘 서비스를 웹·iOS로 개발하고 클라우드에 실배포.}
   \item {\textbf{개발 기간}\enskip 2026.05 -- 2026.06 (1인 풀스택, AI 코딩 도구 활용)}
-  \item {\textbf{기술 스택}\enskip \pill{FastAPI} \pill{Next.js} \pill{SwiftUI} \pill{ChromaDB} \pill{Supabase} \pill{GPT-5.4} \pill{Gemini Embedding} \pill{KIS API} \pill{Railway} \pill{APNs}}
+  \item {\textbf{기술 스택}\enskip \pill{FastAPI} \pill{Next.js} \pill{SwiftUI} \pill{pgvector} \pill{Supabase} \pill{GPT-5.4} \pill{Gemini Embedding} \pill{KIS API} \pill{Railway} \pill{APNs}}
   \item {\textbf{배포·규모}\enskip Railway 상시 운영 (백엔드·웹) / iOS 실기기 (APNs 검증) / REST API 19개 도메인 · 외부 수집기 5종}
 \end{cvitems}
 
@@ -28,7 +28,7 @@
 \stephead{1}{DART 공시 기반 RAG 팩트체크 파이프라인}
 \begin{substeps}
   \item LLM 단독 판정은 근거 없는 확신(할루시네이션) 위험이 있음 --- 판정의 근거를 공식 자료에서 검색해 출처와 함께 제시하는 구조가 필요.
-  \item \textbf{인덱싱} --- DART 공시 본문과 사용자 업로드 PDF를 800자 단위(오버랩 150자)로 청킹하고, Gemini text-embedding-004로 임베딩해 ChromaDB에 저장.
+  \item \textbf{인덱싱} --- DART 공시 본문과 사용자 업로드 PDF를 800자 단위(오버랩 150자)로 청킹하고, Gemini 임베딩(gemini-embedding-001, 3072차원)으로 벡터화해 PostgreSQL(pgvector)에 저장.
   \item \textbf{컬렉션 분리} --- 공용 신뢰 자료(trusted)와 사용자 문서(user\_uploads)를 별도 컬렉션으로 격리하고 사용자명 필터를 강제해, 남의 문서가 검색되지 않는 멀티테넌시를 구현.
   \item \textbf{검색·생성} --- 질문마다 두 컬렉션에서 top-5 유사도 검색 후 ``[자료 N --- 출처]'' 형식의 컨텍스트를 구성, GPT-5.4가 출처를 인용한 답변을 생성 --- 팩트체크 결과는 신뢰도 신호등으로 표시.
 \end{substeps}
