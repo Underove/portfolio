@@ -1,0 +1,53 @@
+%-------------------------------------------------------------------------------
+% N. Personal Project — N.O.V.A: AI 주식 정보 팩트체크 서비스 (웹·iOS 실배포)
+%   p.1 = 배경·목표 + 메인 스크린샷 + 아키텍처
+%   p.2 = 설계 과정 및 수행 내용
+%   ※ 섹션 번호(아래 "3.")는 배치 순서에 맞게 수정
+%   ※ 이미지 2장 필요: p11.jpg(서비스 스크린샷 콜라주), p11pipe.png(아키텍처 다이어그램)
+%-------------------------------------------------------------------------------
+\cvsection{3. Personal Project : N.O.V.A — AI 주식 정보 팩트체크 서비스 (웹·iOS 실배포)}
+
+\projsummary{KIS 실시간 시세와 DART 공시 RAG를 결합해 리포트·지라시를 교차검증하는 풀스택 주식 서비스 --- 백엔드·웹·iOS 개발과 클라우드 배포·운영까지}
+\projfigL[7.6cm]{p11.jpg}
+
+\projpart{\faBookOpen\hspace{1.3mm}배경 및 목표}
+\begin{cvitems}
+  \item {\textbf{배경}\enskip 출처 불명의 리포트·지라시가 메신저로 유통되지만, 개인 투자자가 이를 공식 자료와 대조해 검증할 수단이 마땅치 않음.}
+  \item {\textbf{목표}\enskip 공식 공시(DART)·실시간 시세와 교차검증하는 팩트체크를 중심으로, 시세·차트·포트폴리오 관리까지 갖춘 서비스를 웹·iOS로 개발하고 클라우드에 실배포.}
+  \item {\textbf{개발 기간}\enskip 2026.05 -- 2026.06 (1인 풀스택, AI 코딩 도구 활용)}
+  \item {\textbf{기술 스택}\enskip \pill{FastAPI} \pill{Next.js} \pill{SwiftUI} \pill{ChromaDB} \pill{Supabase} \pill{GPT-5.4} \pill{Gemini Embedding} \pill{KIS API} \pill{Railway} \pill{APNs}}
+  \item {\textbf{배포}\enskip Railway (백엔드·웹 상시 운영) / iOS 실기기 (APNs 푸시 검증)}
+\end{cvitems}
+
+\projpart{\faScrewdriverWrench\hspace{1.3mm}시스템 아키텍처}
+\projfigL[7.0cm]{p11pipe.png}
+
+\newpage
+\projpart{\faMagnifyingGlass\hspace{1.3mm}설계 과정 및 수행 내용}
+
+\stephead{1}{DART 공시 기반 RAG 팩트체크 파이프라인}
+\begin{substeps}
+  \item LLM 단독 판정은 근거 없는 확신(할루시네이션) 위험이 있음 --- 판정의 근거를 공식 자료에서 검색해 출처와 함께 제시하는 구조가 필요.
+  \item \textbf{인덱싱} --- DART 공시 본문과 사용자 업로드 PDF를 800자 단위(오버랩 150자)로 청킹하고, Gemini text-embedding-004로 임베딩해 ChromaDB에 저장.
+  \item \textbf{컬렉션 분리} --- 공용 신뢰 자료(trusted)와 사용자 문서(user\_uploads)를 별도 컬렉션으로 격리하고 사용자명 필터를 강제해, 남의 문서가 검색되지 않는 멀티테넌시를 구현.
+  \item \textbf{검색·생성} --- 질문마다 두 컬렉션에서 top-5 유사도 검색 후 ``[자료 N --- 출처]'' 형식의 컨텍스트를 구성, GPT-5.4가 출처를 인용한 답변을 생성 --- 팩트체크 결과는 신뢰도 신호등으로 표시.
+\end{substeps}
+
+\stephead{2}{팩트체크 응답 지연 개선 (142초 $\rightarrow$ 약 8초)}
+\begin{substeps}
+  \item 요청마다 대상 기업의 공시 전체를 다시 수집·인덱싱하는 구조여서 첫 응답까지 142초가 소요 --- 서비스로 쓸 수 없는 수준.
+  \item \textbf{증분 동기화} --- 이미 인덱싱된 공시는 건너뛰도록 동기화 로직을 재설계하고, 신규 수집을 병렬화해 응답 시간을 약 8초로 단축.
+\end{substeps}
+
+\stephead{3}{실시간 시세 파이프라인과 iOS 확장}
+\begin{substeps}
+  \item \textbf{KIS API 연동} --- REST(분봉·일봉 차트)와 WebSocket(실시간 체결가) 이중 채널로 시세를 수집. 토큰 발급이 하루 1회로 제한되는 정책에 맞춰 토큰 캐싱·재사용 구조를 설계.
+  \item \textbf{수급 데이터 보완} --- 외국인·기관 순매수는 API가 제공하지 않아 Naver 금융 스크래핑으로 대체 수집.
+  \item \textbf{iOS 앱} --- 동일 백엔드를 공유하는 SwiftUI 네이티브 앱으로 웹을 1:1 복제, 모바일 소셜 로그인 엔드포인트를 추가하고 APNs 푸시를 실기기로 검증.
+\end{substeps}
+
+\stephead{4}{멀티유저 보안 --- 독립 리뷰 프로세스}
+\begin{substeps}
+  \item 1인 개발은 자신이 만든 코드의 보안 구멍을 스스로 발견하기 어려움 --- 별도 AI 리뷰어를 두고 적대적 코드 리뷰를 프로세스로 고정.
+  \item \textbf{발견·수정} --- 다른 사용자의 데이터에 접근 가능한 수평 권한 문제, APNs 디바이스 토큰이 이전 사용자에게 남는 누수 등 멀티유저 이슈를 발견하고 수정 --- 인증·데이터 접근 경로에 사용자 격리를 일괄 적용.
+\end{substeps}
