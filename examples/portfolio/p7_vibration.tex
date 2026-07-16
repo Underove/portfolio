@@ -31,19 +31,18 @@
   \item 유형별 타겟 분포 왜곡을 막기 위해 50\% 층화 추출(Stratified Sampling)로 학습셋 구축.
 \end{substeps}
 
-\stephead{2}{데이터 무결성 및 부정행위(Leakage) 차단}
+\stephead{2}{데이터 무결성 및 부정행위(Leakage) 차단 --- 운영진 공동}
 \begin{substeps}
-  \item 동일 장소 신호 혼입 시 모델이 물리 특징이 아닌 장소 패턴을 암기하고, 식별자(ID)가 정답 힌트가 될 수 있음.
-  \item 정답 유추 가능한 장소 식별자(sid·site)와 누수율(lrate)을 제거.
-  \item 계절성 피처용 날짜(ldate)는 보존하고 중복 정보인 MAX 관련 컬럼은 사전 정제해 배포.
-  \item 관로 ID별 데이터 분리 로직으로 미학습 장소의 누수를 예측하게 해 평가 신뢰도 확보.
+  \item 동일 장소 신호 혼입 시 모델이 물리 특징이 아닌 장소 패턴을 암기하고, 식별자(ID)가 정답 힌트가 될 수 있음을 운영진이 함께 진단.
+  \item \textbf{운영진 공동}: 장소 식별자(sid·site)와 누수율(lrate)을 제거하고, 관로 ID별 분리로 미학습 장소의 일반화를 검증.
+  \item \textbf{본인 기여}: 누수의 계절성에 착안해 날짜(ldate) 보존을 제안, 중복 정보인 MAX 관련 컬럼은 사전 정제.
 \end{substeps}
 
-\stephead{3}{평가 지표 최적화 및 강건한 학습 환경}
+\stephead{3}{평가 지표 최적화 및 강건한 평가 환경}
 \begin{substeps}
-  \item 핵심 변수(llevel·ldate) 제외 피처에 5\% 마스킹을 적용해 주파수 전체 상관관계를 학습하도록 유도.
-  \item 전체 평가 데이터를 Public(30\%) / Private(70\%)로 나누고 최종 순위는 Private로만 결정.
-  \item 초기 MSLE의 낮은 해상도를 확인하고, 모델 설명력을 직관적으로 반영하는 $R^2$ Score(0.92)로 지표를 도입해 변별력 확보.
+  \item \textbf{운영진 공동}: 핵심 변수(llevel·ldate) 제외 피처에 5\% 마스킹을 적용해 주파수 전체 상관관계를 학습하도록 유도.
+  \item \textbf{본인}: Kaggle 대회를 개설해 Public(30\%)/Private(70\%) 리더보드를 설계하고 최종 순위는 Private로만 결정.
+  \item \textbf{본인}: 초기 MSLE의 낮은 해상도를 확인해 지표를 설명력이 직관적인 $R^2$ Score($\approx$0.92)로 전환, 변별력 확보.
 \end{substeps}
 
 \achievement{대회 이슈 \textbf{0건 달성} --- 3개월간 과제 설계·평가 환경을 총괄 운영.}
