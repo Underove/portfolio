@@ -4,7 +4,7 @@
 \cvsection{1. 2025 MixUP AI Datathon : 국내 기업 철강 공정 데이터 분석}
 
 \projsummary{스마트팩토리 센서 데이터를 활용한 품질 불량(OK/NG) 조기 탐지 및 공정 최적화 전략 수립}
-\projfig[5.8cm]{p2.jpg}
+\projfigL[9.2cm]{p2.jpg}
 
 \projpart{\faBullhorn\hspace{1.3mm}배경 및 목표}
 \begin{cvitems}
@@ -28,6 +28,7 @@
   \item '속도가 오르면 점성 저항이 커져 장력이 선형 증가'한다는 원리로 분석해, 두 변수의 높은 상관($R^2=0.7914$)을 확인.
 \end{substeps}
 
+\newpage
 \stephead{2}{RFECV 변수 최적화 및 도메인 피처 설계}
 \begin{substeps}
   \item 27개 변수에서 RFECV로 기여도 높은 \textbf{최적 6개}(기준장력·장력1·스피드1 등)를 선별.
@@ -36,7 +37,6 @@
   \item \textbf{측량완전결측 플래그} --- 장력·스피드 동시 0 구간의 양품률이 0\%임을 확인해, 결측이 아닌 '불량 신호'로 정의.
 \end{substeps}
 
-\newpage
 \stephead{3}{고정밀 품질 예측 및 데이터 불균형 최적화}
 \begin{substeps}
   \item 정상 대비 불량(NG)이 적은 제조 현장의 불균형으로 양품 편향이 발생.
