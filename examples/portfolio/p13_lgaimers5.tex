@@ -1,0 +1,59 @@
+%-------------------------------------------------------------------------------
+% 13. LG Aimers 5기 — 디스플레이 공정 제품 이상탐지 (2024.07~08)
+%   ※ 성과(순위) 없음 → \achievement 줄 없음. 제조 정형 데이터 이상탐지 경험용 사이드.
+%   ※ 섹션 번호("N.")는 driver 배치 순서에 맞게 수정.
+%   ※ 실제 제출 코드(code.ipynb) 기준으로만 작성 — 면접 방어 가능.
+%   ※ 이미지 없음(정형 데이터 대회) → 넣고 싶으면 \projfig 주석 해제 후 파일명 지정.
+%-------------------------------------------------------------------------------
+\cvsection{3. LG Aimers 5기 : 디스플레이 공정 제품 이상탐지}
+
+\projsummary{디스플레이 조립 4개 공정의 공정 변수로 제품 양품/불량을 판별하는 이진 분류 --- 클래스 불균형 완화와 AutoML 앙상블}
+% \projfig[5.6cm]{p13.jpg}   % 이미지 넣을 경우 주석 해제
+
+\projpart{\faBullhorn\hspace{1.3mm}배경 및 목표}
+\begin{cvitems}
+  \item {\textbf{배경}\enskip 디스플레이 패널 조립은 여러 단계 공정을 거치며 다수의 센서·판정 로그가 쌓이는데, 불량은 드물게 발생해 정상 데이터에 묻히기 쉬움 --- 희소한 불량을 놓치지 않는 탐지가 품질 관리의 핵심.}
+  \item {\textbf{목표}\enskip 4개 조립 공정(Dam·Fill1·Fill2·AutoClave)의 공정 변수로 최종 제품의 양품(Normal)/불량(AbNormal)을 예측하는 이진 분류 모델을 개발.}
+  \item {\textbf{개발 기간}\enskip 2024.07 -- 2024.08 (LG Aimers 5기 온라인 해커톤, 개인)}
+  \item {\textbf{기술 스택}\enskip \pill{Python} \pill{Pandas} \pill{Scikit-learn} \pill{PyCaret} \pill{LightGBM} \pill{XGBoost} \pill{Extra Trees}}
+  \item {\textbf{평가지표}\enskip F1 Score (불균형 이진 분류 --- 정확도가 아닌 F1로 평가)}
+\end{cvitems}
+
+\projpart{\faChartBar\hspace{1.3mm}데이터 소개}
+\begin{cvitems}
+  \item {\textbf{학습/평가 데이터}\enskip 디스플레이 조립 4개 공정(Dam·Fill1·Fill2·AutoClave)의 공정 변수 --- 설비·라인·모델 식별자, 압력·챔버 온도 판정값, 검사 판정 코드, 헤드 좌표 등. 타깃 = Normal / AbNormal.}
+  \item {\textbf{데이터 특성}\enskip 범주형·수치형이 혼재하고 결측이 많으며, 불량(AbNormal)이 희소한 클래스 불균형 --- 전처리·불균형 처리가 성능을 좌우.}
+\end{cvitems}
+
+\projpart{\faMagnifyingGlass\hspace{1.3mm}설계 과정 및 수행 내용}
+
+\stephead{1}{결측·이상값 정제}
+\begin{substeps}
+  \item 결측 비율이 50\% 이상인 열은 신호 대비 잡음이 커 train·test 모두에서 제거.
+  \item 수치형이어야 할 헤드 좌표 3개 열에 판정 문자열 `OK'가 섞여 있어, 이를 결측으로 통일한 뒤 train 중앙값으로 대치(동일 값을 test에 적용해 누수 차단).
+\end{substeps}
+
+\stephead{2}{범주형 인코딩 및 학습/평가 열 정합}
+\begin{substeps}
+  \item 설비(Equipment)·라인(Wip Line)·모델(Model.Suffix)·공정 설명·검사 판정 등 범주형 27개 열을 One-Hot 인코딩.
+  \item train·test의 열 집합·순서를 정렬(align)하고 한쪽에만 있는 범주 열은 0으로 채워, 두 데이터의 피처 공간을 일치.
+  \item 타깃(Normal/AbNormal)만 Label Encoding으로 수치화.
+\end{substeps}
+
+\stephead{3}{클래스 불균형 완화}
+\begin{substeps}
+  \item 불량이 희소해 다수 클래스(Normal)를 불량 대비 \textbf{5:1}로 언더샘플링, 학습이 정상 쪽으로 편향되는 것을 완화.
+  \item 남은 불균형은 학습 파이프라인의 불균형 보정(fix\_imbalance) 단계에서 추가로 처리.
+\end{substeps}
+
+\stephead{4}{PyCaret AutoML 모델 탐색 및 Soft-Voting 앙상블}
+\begin{substeps}
+  \item 대회 기간이 짧아 PyCaret으로 여러 분류 모델을 F1 기준 10-Fold 교차검증으로 일괄 비교, 상위 3개를 선별.
+  \item 선정된 \textbf{LightGBM · XGBoost · Extra Trees}를 각각 학습한 뒤, 세 모델의 예측 확률을 평균하는 Soft-Voting으로 블렌딩해 단일 모델의 분산을 완화.
+\end{substeps}
+
+\stephead{5}{검증 전략}
+\begin{substeps}
+  \item 언더샘플링한 학습 데이터를 클래스 비율 유지(stratify)로 8:2 분할, 20\% 홀드아웃 검증셋으로 일반화 성능을 점검.
+  \item 모델 선정 단계에서도 10-Fold 교차검증 F1을 기준으로 삼아 특정 분할 편향을 줄임.
+\end{substeps}
