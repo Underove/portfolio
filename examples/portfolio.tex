@@ -180,33 +180,23 @@
 %	PROJECTS  (순서 = PDF 순서)
 %-------------------------------------------------------------------------------
 % 되도록 프로젝트 1개당 1페이지 (\newpage 로 구분)
-\input{portfolio/p11_nova.tex}            % N.O.V.A — 생성형 AI·RAG 팩트체크·실배포 (개인 서비스)
+% ===== 레브잇 [쇼포트] 제출본 : LLM·AI Agent·제품 리드 5개 =====
+\input{portfolio/p11_nova.tex}            % 1. N.O.V.A — LLM·RAG·function calling 풀스택 배포 (플래그십)
 \newpage
-\input{portfolio/p5_pifiri.tex}           % ToBig's 20th Pi-FiRi — 엣지 Vision AI + LLM Agent (로봇)
+\input{portfolio/p1_bias.tex}             % 2. Bias-A-Thon — 프롬프트 설계로 LLM 성능 개선 (파인튜닝 X)
 \newpage
-\input{portfolio/p2_steel.tex}            % 2025 MixUP 철강 (5위) — 클래스 불균형 대응
+\input{portfolio/p5_pifiri.tex}           % 3. Pi-FiRi — 엣지 + LLM Agent(LangChain)
 \newpage
-\input{portfolio/p4_curat3r.tex}          % ToBig's 21st Curat3R — 단일 이미지 3D 복원
-% ---- 여기부터 = 그 외 프로젝트(폭) ----
+\input{portfolio/p3_warehouse.tex}        % 4. 스마트 창고 — 데이터 파이프라인·앙상블·대시보드 (우대: 데이터 엔지니어링·ML)
 \newpage
-\projdivider{Other Projects}{LLM · 시계열 예측}
-\input{portfolio/p1_bias.tex}             % 2025 DACON Bias-A-Thon (LLM 편향)
-\newpage
-\input{portfolio/p6_lgaimers.tex}         % LG Aimers 메뉴 수요 예측 (전국 5위)
-\newpage
-\input{portfolio/p3_warehouse.tex}        % 2026 DACON 스마트 창고 (상위 11%) — 시계열 예측
+\input{portfolio/p2_steel.tex}            % 5. 철강 공정 (5위) — 통계/ML
 
-% ---- EY 제출본에서 제외 (파일 보존) ----
-%\newpage
-%\input{portfolio/p7_vibration.tex}        % MixUP 2회 진동/음향 (Track1 출제위원)
-%\newpage
-%\input{portfolio/p8_drone.tex}            % 부산대 창의비행체 (짐벌·OpenCV)
-%\newpage
-%\input{portfolio/p9_satellite.tex}        % ALCP 위성 자세제어 (우수상)
-
-% ---- 제외 (파일은 그대로 보존) ----
-% 2023 뉴스 레이블 복구: 유일하게 성과 항목이 없어 제외. 되살리려면 아래 두 줄 맨 앞 % 하나만 삭제.
-%\newpage
-%\input{portfolio/p10_news.tex}
+% ---- 레브잇 제출본에서 제외 (파일 보존) ----
+%\input{portfolio/p4_curat3r.tex}          % Curat3R — 3D 복원
+%\input{portfolio/p6_lgaimers.tex}         % LG Aimers 7기 — 수요예측
+%\input{portfolio/p7_vibration.tex}        % MixUP 2회 진동/음향
+%\input{portfolio/p8_drone.tex}            % 부산대 창의비행체
+%\input{portfolio/p9_satellite.tex}        % ALCP 위성 자세제어
+%\input{portfolio/p10_news.tex}            % 2023 뉴스 레이블
 
 \end{document}
