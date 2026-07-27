@@ -15,7 +15,7 @@
   \item {\textbf{배경}\enskip 리조트 식음업장은 투숙객 수뿐 아니라 날씨·주변 관광 시설(스키장·화담숲) 이용객 등 다양한 요인으로 수요가 크게 변동. 운영 효율화·재고 관리를 위한 데이터 기반 수요 예측이 필수.}
   \item {\textbf{목표}\enskip 리조트 메뉴별 판매 데이터(최대 28일치)로 향후 1주일간 각 메뉴의 예상 판매량을 예측하는 AI 모델을 개발.}
   \item {\textbf{개발 기간}\enskip 2025.08 -- 2025.09 (Phase 3: 2025.09.06--07)}
-  \item {\textbf{기술 스택}\enskip \pill{Python} \pill{PyTorch} \pill{Pandas} \pill{NumPy} \pill{Scikit-learn} \pill{1D CNN} \pill{BiLSTM}}
+  \item {\textbf{기술 스택}\enskip \pill{Python} \pill{PyTorch} \pill{Pandas} \pill{Scikit-learn} \pill{1D CNN} \pill{BiLSTM}}
 \end{cvitems}
 
 \projpart{\faChartBar\hspace{1.3mm}데이터 소개}
@@ -39,7 +39,6 @@
   \item \textbf{현장 운영 플래그} --- 화담숲·스키장 폐장기, 단풍/스키 시즌 등 운영 기간별 노이즈 제어.
   \item \textbf{소비 패턴} --- 징검다리 연휴, 신규/대체 메뉴 출시로 인한 기존 메뉴 자기잠식 효과 반영.
   \item \textbf{신규 메뉴 대응} --- 각 메뉴 첫 판매 시점 기준 판매 가능 여부·출시 경과일 피처 생성.
-  \item \textbf{외부 메타 선별} --- 객실·단체·기상·시설 이용객을 전 항목 병합한 뒤 Fold 검증으로 기여도를 측정, 화담숲 이용객 수·스키장 1일 내장객 수만 최종 채택.
 \end{substeps}
 
 \stephead{3}{1D CNN + BiLSTM 하이브리드 아키텍처}
@@ -51,17 +50,17 @@
 
 \stephead{4}{커스텀 복합 손실 함수 + 2단계 학습}
 \begin{substeps}
-  \item MSE는 판매량이 큰 메뉴 오차에 편향돼 소량 메뉴 예측력이 저하 --- MSE로 기본 패턴을 Warm-up한 뒤, 평가지표 SMAPE를 원 판매량 단위로 역변환해 손실로 직접 사용(가중 영업장 3배 가중 반영) --- \textbf{SMAPE 0.675 → 0.527, 약 22\% 개선}.
-  \item 본선 평가 산식 (SMAPE+NMAE+NRMSE+Pearson $R^2$)/4를 미분 가능한 복합 손실로 재구현 --- 스케일 없는 NMAE·NRMSE에 상한 1을 걸어 저판매 메뉴의 손실 지배를 차단, $R^2$는 $(1-R^2)$로 방향 통일 --- \textbf{약 6\% 추가 향상}.
+  \item MSE는 판매량이 큰 메뉴 오차에 편향돼 소량 메뉴 예측력이 저하 --- Warm-up 후 평가지표 SMAPE를 원 판매량 단위로 역변환해 손실로 직접 사용, 가중 영업장 3배 가중까지 반영 --- \textbf{SMAPE 0.675 → 0.527, 약 22\% 개선}.
+  \item 본선 평가 산식 (SMAPE+NMAE+NRMSE+Pearson $R^2$)/4를 미분 가능한 복합 손실로 이식 --- 스케일 없는 NMAE·NRMSE에 상한 1을 걸어 저판매 메뉴의 손실 지배를 차단 --- \textbf{약 6\% 추가 향상}.
 \end{substeps}
 
 \stephead{5}{24-Fold 롤링 교차 검증 및 후처리}
 \begin{substeps}
   \item 특정 시점 편향·과적합을 줄이고 시간적 강건성을 확보하기 위해 7일 슬라이딩 24-Fold Rolling CV + 앙상블로 일반화.
-  \item 판매 수량이 정수라는 제약을 반영 --- 0과 1 사이 예측은 올림해 1로, 나머지는 반올림 후 정수 변환. 실적이 있는 메뉴를 0으로 예측하는 손실을 차단해 \textbf{약 2\% 향상}.
+  \item 판매 수량이 정수라는 제약을 반영 --- 0\textasciitilde1 구간 예측은 올림해 1로, 나머지는 반올림 후 정수 변환해 \textbf{약 2\% 향상}.
 \end{substeps}
 
-\achievement{오프라인 본선 진출(800여 팀, 1,600명), \textbf{최종 5위} --- 리더보드 Private 0.54969 / Public 0.55653. \textit{본선은 4인 팀 공동 작업.}}
+\achievement{오프라인 본선 진출(800여 팀·1,600명), \textbf{최종 5위} --- 리더보드 Private 0.54969 / Public 0.55653. \textit{4인 팀 공동 작업.}}
 
 % ── 간격 기본값 복구
 \setlength{\stepgap}{0.9mm}
