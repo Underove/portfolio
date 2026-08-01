@@ -40,7 +40,7 @@
 \begin{substeps}
   \item 트리 모델만으로는 25개 시간 구간의 흐름을 학습하기 어려워 트리 3종과 시퀀스 2종을 함께 구성(XGBoost는 뒤 진단에서 노이즈로 판명되어 제외, 최종 4모델).
   \item 트리 3종(LightGBM·CatBoost·XGBoost)은 Optuna로 GroupKFold 탐색, 비대칭 분포 보정을 위해 log1p 학습 + expm1 복원.
-  \item Bi-GRU는 (25, N) 시퀀스로 재구성해 LSTM 대비 파라미터를 절감, 신규 창고 일반화에 유리(LB 10.1669 $\to$ 10.0194로 개선).
+  \item Bi-GRU는 (25, N) 시퀀스로 재구성해 LSTM 대비 파라미터를 절감, 신규 창고 일반화에 유리(LB 10.1669 $\to$ 10.0194, 순위 60등 상승).
   \item Bi-GRU + Multi-Head Attention은 4-head·잔차 연결·LayerNorm으로 먼 시점 관계를 포착.
   \item SLSQP로 OOF 최소화 가중치를 자동 탐색(합=1).
 \end{substeps}
