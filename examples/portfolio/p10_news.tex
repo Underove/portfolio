@@ -32,8 +32,8 @@
   \item SBERT로 텍스트를 고차원 밀집 벡터로 변환한 뒤 K-means로 6개 그룹을 형성해 문맥 기반 비지도 분류 체계를 구현.
 \end{substeps}
 
-\stephead{3}{BART Zero-shot으로 군집-범주 매칭}
+\stephead{3}{군집-범주 매핑 및 Zero-shot 검토}
 \begin{substeps}
-  \item 각 군집이 어떤 범주에 해당하는지 정의할 학습 라벨이 부재.
-  \item BART Zero-shot Classification으로 추가 학습 없이 6개 범주 중 최적 매칭을 추론.
+  \item 각 군집이 어떤 범주인지 정의할 학습 라벨이 부재 --- 군집별 상위 기사를 직접 열람해 6개 범주에 수동 매핑.
+  \item BART Zero-shot 분류를 검토했으나 6만 건 추론 비용 대비 실익이 없어 제외 (Macro F1 0.652).
 \end{substeps}
