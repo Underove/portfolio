@@ -164,7 +164,7 @@
 \email{swjohn0121@cau.ac.kr}
 \homepage{underove.github.io}
 \github{Underove}
-\quote{``끊임없이 도전하고, 이론을 현실에서 작동하는 시스템으로 구현하는 과정을 즐깁니다.''}
+\quote{``제약이 있는 실물 환경에서, AI를 실시간으로 굴러가게 만드는 과정을 즐깁니다.''}
 
 %-------------------------------------------------------------------------------
 \begin{document}
@@ -180,23 +180,23 @@
 %	PROJECTS  (순서 = PDF 순서)
 %-------------------------------------------------------------------------------
 % 되도록 프로젝트 1개당 1페이지 (\newpage 로 구분)
-\input{portfolio/p11_nova.tex}            % N.O.V.A — 생성형 AI·RAG 팩트체크·실배포 (개인 서비스)
+\input{portfolio/p5_pifiri.tex}           % Pi-FiRi — 엣지 실시간 인식·경량화·분산 추론 (메인, 2p)
 \newpage
-\input{portfolio/p5_pifiri.tex}           % ToBig's 20th Pi-FiRi — 엣지 Vision AI + LLM Agent (로봇)
+\input{portfolio/p4_curat3r.tex}          % Curat3R — CV 딥러닝 파이프라인 (CLIP·3D 복원)
 \newpage
-\input{portfolio/p2_steel.tex}            % 2025 MixUP 철강 (5위) — 클래스 불균형 대응
+\input{portfolio/p11_nova.tex}            % N.O.V.A — 데이터 파이프라인·운영 (서브)
+% ---- 여기부터 = 데이터 검증·모델링(폭) ----
 \newpage
-\input{portfolio/p4_curat3r.tex}          % ToBig's 21st Curat3R — 단일 이미지 3D 복원
-% ---- 여기부터 = 그 외 프로젝트(폭) ----
+\projdivider{Other Projects}{데이터 검증 · 시계열 · LLM}
+\input{portfolio/p3_warehouse.tex}        % 창고 — 학습/평가 분포 검증 (Adversarial Validation·GroupKFold)
 \newpage
-\projdivider{Other Projects}{LLM · 시계열 예측}
-\input{portfolio/p1_bias.tex}             % 2025 DACON Bias-A-Thon (LLM 편향)
+\input{portfolio/p2_steel.tex}            % 철강 — 센서 데이터 정합성·누수 차단
 \newpage
-\input{portfolio/p6_lgaimers.tex}         % LG Aimers 메뉴 수요 예측 (전국 5위)
+\input{portfolio/p6_lgaimers.tex}         % LG Aimers — 1D CNN+BiLSTM·복합 손실
 \newpage
-\input{portfolio/p3_warehouse.tex}        % 2026 DACON 스마트 창고 (상위 11%) — 시계열 예측
+\input{portfolio/p1_bias.tex}             % Bias-A-Thon — LLM 프롬프트·평가
 
-% ---- EY 제출본에서 제외 (파일 보존) ----
+% ---- HL 제출본에서 제외 (파일 보존) ----
 %\newpage
 %\input{portfolio/p7_vibration.tex}        % MixUP 2회 진동/음향 (Track1 출제위원)
 %\newpage
