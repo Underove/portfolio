@@ -4,7 +4,7 @@
 \cvsection{1. ToBig's 20th Conference : Pi-FiRi — 엣지 디바이스 기반 실시간 화재 감지 로봇}
 
 \projsummary{라즈베리파이 로봇 위에서 경량 객체탐지 모델을 실시간으로 굴리고, 분산 추론과 LLM Agent로 자율 순찰·화재 대응까지 잇는 엣지 AI 시스템 --- 4인 팀, 아키텍처 설계·LLM 연동 담당}
-\projfigL[7.0cm]{p5.jpg}
+\projfigL[5.6cm]{p5.jpg}
 
 \projpart{\faBookOpen\hspace{1.3mm}배경 및 목표}
 \begin{cvitems}
@@ -15,8 +15,9 @@
 \end{cvitems}
 
 \projpart{\faScrewdriverWrench\hspace{1.3mm}파이프라인}
-\projfigL[7.9cm]{p5pipe.png}
+\projfigL[6.4cm]{p5pipe.png}
 
+\newpage
 \projpart{\faGear\hspace{1.3mm}시스템 및 하드웨어 구성}
 \begin{cvitems}
   \item {\textbf{Pi-Camera}\enskip 화재·연기를 탐지하고 실시간 영상 스트림을 서버로 전송하는 로봇의 '눈' 역할.}
@@ -25,7 +26,6 @@
   \item {\textbf{ArUco Marker (OpenCV)}\enskip 로봇의 현재 위치와 화재 발생 지점을 파악하기 위해 경로 구간별로 도입.}
 \end{cvitems}
 
-\newpage
 \projpart{\faMagnifyingGlass\hspace{1.3mm}설계 과정 및 수행 내용}
 
 \stephead{1}{분산 추론 아키텍처 설계 (엣지 연산 한계 극복 · 1 $\rightarrow$ 약 10 FPS)}
