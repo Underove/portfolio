@@ -37,8 +37,8 @@
 
 \stephead{3}{고정밀 품질 예측 및 데이터 불균형 최적화}
 \begin{substeps}
-  \item 정상 대비 불량(NG)이 적은 제조 현장의 불균형으로 양품 편향이 발생.
-  \item 불량 탐지 민감도를 높이기 위해 Class Weight(OK:1 / NG:3)를 적용하고 비선형 패턴에 강한 LightGBM을 선정.
+  \item 학습 데이터는 불량(NG) 1,119건 · 양품(OK) 721건으로 오히려 양품이 소수 클래스이며, 그대로 학습하면 양품 판정 성능이 떨어짐.
+  \item 소수 클래스인 양품 탐지 민감도를 높이기 위해 Class Weight를 OK:3 / NG:1로 적용하고, 비선형 패턴에 강한 LightGBM을 선정.
   \item F1-Score와 ROC-AUC를 가중 결합한 대회 전용 지표로 Optuna 튜닝을 진행.
 \end{substeps}
 

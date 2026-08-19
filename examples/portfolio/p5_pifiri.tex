@@ -19,7 +19,7 @@
 
 \projpart{\faGear\hspace{1.3mm}시스템 및 하드웨어 구성}
 \begin{cvitems}
-  \item {\textbf{모델 선정 (EfficientDet-Lite1)}\enskip 엣지 지연 예산을 먼저 고정하고 TFLite 배포가 가능한 Lite0--Lite2를 지연--정확도로 비교, 공식 벤치마크 지연 49ms·mAP 30.55\%인 Lite1을 채택. Roboflow Universe Fire\&Smoke Dataset을 수집·증강해 파인튜닝(팀 공동)하고, 초기 모델(model0)을 교체하며 탐지 성능을 재검증.}
+  \item {\textbf{모델 선정 (EfficientDet-Lite1)}\enskip 엣지 지연 예산을 먼저 고정하고 TFLite 배포가 가능한 Lite0--Lite2를 지연--정확도로 비교, 공식 벤치마크 지연 49ms·mAP 30.55\%인 Lite1을 채택. 공개 화재·연기 데이터셋(Roboflow Universe)을 확보·증강해 파인튜닝(팀 공동)하고, 초기 모델(Lite0)에서 Lite1로 교체하며 탐지 성능을 재검증.}
   \item {\textbf{연속 감지 필터링}\enskip 단일 프레임 노이즈로 인한 오탐을 막기 위해, 0.5 임계값 이상 탐지가 1.2초 연속 유지될 때만 화재로 확정.}
   \item {\textbf{Pi-Camera}\enskip 화재·연기를 탐지하고 실시간 영상 스트림을 서버로 전송하는 로봇의 '눈' 역할.}
   \item {\textbf{GrayScale Sensor}\enskip 바닥 라인을 실시간 인식해 지정 경로를 따라가는 라인 트레이싱으로 정해진 구역을 상시 순찰.}
@@ -57,7 +57,7 @@
   \item 로봇이 탐지한 화재 메타데이터(감지 시간·객체 크기·예측 확률·위치)를 LangChain PromptTemplate으로 동적 주입해, Solar Pro2 기반 분석 결과를 생성.
   \begin{substeps2}
     \item \textbf{4단계 위험도 경고} --- 예측 확률과 객체 크기를 종합해 [관심--주의--경계--심각]으로 분류한 자연어 메시지를 생성.
-    \item \textbf{순찰 보고서 생성} --- 순찰 시작·종료 시간, 구간별 통과 로그, 화재 이벤트를 사실에 근거해 작성. \texttt{temperature=0}과 다중 제약 시스템 프롬프트로 환각을 차단하고, 같은 입력에 같은 결과를 내는 재현성을 확보해 일관된 평가가 가능한 응답 체계를 구축.
+    \item \textbf{순찰 보고서 생성} --- 순찰 시작·종료 시간, 구간별 통과 로그, 화재 이벤트를 사실에 근거해 작성. ``제공된 데이터에 없는 내용을 생성하지 말 것''을 포함한 다중 제약 프롬프트로 보고 범위를 통제하고, \texttt{temperature=0}으로 같은 입력에 같은 결과를 내는 재현성과 형식 일관성을 확보.
     \item \textbf{실시간 Q\&A} --- ``현재 로봇의 위치는 어디야?''와 같은 질문에, 수집된 순찰 데이터를 근거로 실시간 답변.
   \end{substeps2}
 \end{substeps}

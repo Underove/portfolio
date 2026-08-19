@@ -34,14 +34,14 @@
     \item \textbf{Major\,/\,Minor Revision} --- 재질 결함(투명·반사) 또는 배경 복잡.
     \item \textbf{Accept} --- 깔끔한 배경의 단일 객체 이미지.
   \end{substeps2}
-  \item \textbf{Human-in-the-loop} --- AI의 오판 가능성을 고려해, 사용자가 최종 생성 여부를 직접 결정하는 'Human Override' 인터페이스를 구축 --- 자동 판정의 오류가 데이터 무결성을 해치지 않도록 함.
+  \item \textbf{Human-in-the-loop} --- 자동 판정이 반려한 경우 사유를 사람이 읽을 수 있는 문장으로 제시해 재업로드를 유도하고, 통과 이후 생성 트랙(속도·정밀도)은 사용자가 직접 선택하도록 설계.
 \end{substeps}
 
 \stephead{2}{Dual-Track 추론 파이프라인 (사용자 요구 맞춤형 설계)}
 \begin{substeps}
   \item 실시간 서비스에 필요한 '생성 속도'와 결과물 '정밀도'가 서로 상충 --- 단일 모델로는 두 사용자층을 모두 만족시킬 수 없음.
-  \item \textbf{Fast Track (SPAR3D)} --- 약 0.7초의 초고속 추론 환경을 구축해, 즉각적인 3D 결과 확인이 필요한 체험형 사용자에 대응.
-  \item \textbf{Quality Track (TRELLIS.2)} --- 고해상도 생성 파이프라인을 연동해, 정밀한 복원이 필요한 아카이빙 목적 사용자에 대응.
+  \item \textbf{Fast Track (SPAR3D)} --- 포인트 확산으로 Sparse Point Cloud를 만든 뒤 Triplane Transformer로 메시를 생성, RTX 5090 기준 추론 20\textasciitilde30초로 즉각적인 확인이 필요한 체험형 사용자에 대응.
+  \item \textbf{Quality Track (TRELLIS.2)} --- 고해상도 생성 파이프라인(동일 환경 5\textasciitilde7분)을 연동해, 정밀한 복원이 필요한 아카이빙 목적 사용자에 대응 --- 속도 우선 트랙 대비 10배 이상의 시간을 쓰는 대신 품질을 확보.
   \item CLIP 심사 결과와 사용자 선택을 함께 받아 두 트랙 중 하나로 분기하는 Model Selection 단계를 두어, 리소스와 품질을 요구에 맞게 배분.
 \end{substeps}
 
