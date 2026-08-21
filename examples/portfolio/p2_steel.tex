@@ -9,14 +9,14 @@
 \projpart{\faBullhorn\hspace{1.3mm}배경 및 목표}
 \begin{cvitems}
   \item {\textbf{배경}\enskip 철강 제조는 고온·고압 환경에서 수많은 센서 로그가 발생하는 복잡한 공정으로, 미세한 변수 제어 실패가 막대한 자재 손실과 품질 저하로 직결.}
-  \item {\textbf{목표}\enskip 위즈코어(Wizcore)의 실제 철강 공정 데이터로 양품/불량품을 판별하는 분류 모델 개발 및 데이터 분석 기반의 공정 최적화·운용 전략을 제안.}
+  \item {\textbf{목표}\enskip 위즈코어(Wizcore)의 실제 철강 공정 데이터(운영진이 대회용으로 전처리)로 양품/불량품을 판별하는 분류 모델 개발 및 데이터 분석 기반의 공정 최적화·운용 전략을 제안.}
   \item {\textbf{개발 기간}\enskip 2025.05.12 -- 2025.05.18 (대면 기간 2025.05.17--18)}
   \item {\textbf{기술 스택}\enskip \pill{Python} \pill{LightGBM} \pill{Optuna} \pill{SHAP} \pill{RFECV} \pill{Scikit-learn}}
 \end{cvitems}
 
 \projpart{\faChartBar\hspace{1.3mm}데이터 소개}
 \begin{cvitems}
-  \item {\textbf{학습/평가 데이터}\enskip 제품별 센서 로그(장력·스피드 등), 생산지시 정보, 품질 결과(OK/NG). 학습 1,840행 · 46컬럼 (실제 라인 데이터 · 운영진 대회용 전처리).}
+  \item {\textbf{학습/평가 데이터}\enskip 제품별 센서 로그(장력·스피드 등), 생산지시 정보, 품질 결과(OK/NG). 학습 1,840행 · 46컬럼.}
 \end{cvitems}
 
 \projpart{\faMagnifyingGlass\hspace{1.3mm}설계 과정 및 수행 내용}
@@ -55,4 +55,4 @@
   \item 이 중 일자·식별자와 타깃(OK) 생성에 쓰인 NG, 예측 시점에 알 수 없는 수요가는 정답 정보가 새는 경로로 판단해 차단 --- 메타데이터·중복 변수는 일반화·학습 효율을 위해 제거.
 \end{substeps}
 
-\achievement{본선 진출 · 대회 제공 지표 \textbf{만점(1.000000)} --- 참가 15팀 중 만점 5팀, 비공개 리더보드 5위.}
+\achievement{본선 진출 · 대회 제공 지표 \textbf{만점} --- 15팀 중 만점 5팀 · 비공개 리더보드 5위.}
